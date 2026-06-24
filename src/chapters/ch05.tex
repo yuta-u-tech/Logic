@@ -1,0 +1,607 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\section{標準命題算}
+
+標準命題算とは，命題記号と論理結合子を用いて論理式を構成し，それらの真理値を計算する形式体系である。ここでは Standard Proposition Calculus を略して SPC と呼ぶ。
+\[
+  \text{標準命題算}
+  \quad
+  (\mathrm{Standard\ Proposition\ Calculus};\ \mathrm{SPC})
+\]
+
+\subsection{原始記号}
+
+SPC の原始記号は，それ以上定義せずに体系の出発点として用いる記号である。
+
+まず，命題定項として
+\[
+  A,B,C,\ldots
+  \qquad
+  \text{[命題定項]}
+\]
+を用いる。命題定項は，特定の真理値をもつ具体的な命題を表す。これに対して，命題変項として
+\[
+  p,q,r,\ldots
+  \qquad
+  \text{[命題変項]}
+\]
+を用いる。命題変項は，真理値が代入によって決まる記号である。
+
+命題定項と命題変項を合わせて，命題項という。
+\[
+  \left.
+  \begin{array}{l}
+    \text{命題定項} \\
+    \text{命題変項}
+  \end{array}
+  \right\}
+  \quad
+  \text{命題項}
+\]
+
+論理演算子として，否定を表す単項真理関数
+\[
+  \sim
+  \qquad
+  \text{[原始単項真理関数，否定，論理的演算子]}
+\]
+と，選言を表す二項真理関数
+\[
+  \lor
+  \qquad
+  \text{[原始二項真理関数，選言，論理的演算子]}
+\]
+を用いる。また，式の構造を明確にするために
+\[
+  (, ), \{, \}, [,]
+  \qquad
+  \text{[括弧記号]}
+\]
+を用いる。
+
+\begin{sidebox}[TBred]{判読注意}
+  元資料では \(\lor\) の説明が「疑言」または「選言」に見える。文脈上，\(\lor\) は選言を表すため，ここでは選言として整理した。
+\end{sidebox}
+
+\subsection{構成規則}
+
+SPC 論理式，すなわち SPC well formed formula は，次の構成規則によって生成される。
+\[
+  \mathrm{SPC\ well\ formed\ formula}
+\]
+
+\paragraph{FR0}
+命題項はすべて，それ1つで SPC 論理式である。
+
+\paragraph{FR1}
+任意の SPC 論理式 \(\alpha\) について，
+\[
+  \sim \alpha
+\]
+もまた SPC 論理式である。
+
+\paragraph{FR2}
+任意の2つの SPC 論理式 \(\alpha,\beta\) について，
+\[
+  \alpha \lor \beta
+\]
+もまた SPC 論理式である。
+
+このように，SPC の論理式は，命題項から出発し，否定と選言を有限回適用することによって作られる。
+
+\section{派生記号の定義}
+
+SPC では，原始記号として \(\sim\) と \(\lor\) を採用する。連言 \(\land\)，含意 \(\supset\)，同値 \(\equiv\) は，これらから定義される派生記号である。
+
+任意の SPC 論理式 \(\alpha,\beta\) について，連言を次のように定義する。
+\[
+  \mathrm{Df.1}
+  \qquad
+  \alpha \land \beta
+  =_{\df}
+  \sim(\sim\alpha \lor \sim\beta)
+  \qquad
+  \text{連言}
+\]
+これは，ド・モルガン律を用いて「\(\alpha\) かつ \(\beta\)」を「\(\alpha\) でない，または \(\beta\) でない，ではない」と表す定義である。
+
+含意は次のように定義される。
+\[
+  \mathrm{Df.2}
+  \qquad
+  \alpha \supset \beta
+  =_{\df}
+  \sim\alpha \lor \beta
+  \qquad
+  \text{含意}
+\]
+これは，「\(\alpha\) ならば \(\beta\)」を，論理学上は「\(\alpha\) でない，または \(\beta\)」として扱うということである。
+
+同値は，双方向の含意として定義される。
+\[
+  \mathrm{Df.3}
+  \qquad
+  \alpha \equiv \beta
+  =_{\df}
+  (\alpha \supset \beta) \land (\beta \supset \alpha)
+  \qquad
+  \text{同値}
+\]
+つまり，\(\alpha\) と \(\beta\) が同値であるとは，\(\alpha\) ならば \(\beta\)，かつ \(\beta\) ならば \(\alpha\) が成り立つことである。
+
+演算子の結合の強さは，式を読むうえで重要である。元資料のメモは，概ね次のような優先順位を示している。
+\[
+  \sim
+  \quad \text{は} \quad
+  \land,\lor,\supset,\equiv
+  \quad \text{よりも強く結合する}
+\]
+一般には，\(\sim\)，\(\land\)，\(\lor\)，\(\supset\)，\(\equiv\) の順に結合が弱くなるものとして読む。
+
+\begin{sidebox}[TBred]{判読注意}
+  演算子の結合強度を表すメモは，写真では「よりも強い」と読める。ここでは，否定が最も強く結合し，同値が最も弱く結合するという標準的な読み方で補った。
+\end{sidebox}
+
+\subsection{SPCのセマンティクス}
+
+SPC のセマンティクスでは，論理式に真理値 \(0,1\) を割り当てる。\(V_i\) を付値関数とすると，任意の SPC 論理式 \(\alpha\) について，
+\[
+  \mathrm{SR0}
+  \qquad
+  \alpha \text{ は真理値が } 1 \text{ である}
+  \quad
+  \Leftrightarrow_{\df}
+  \quad
+  V_i[\alpha] = 1
+\]
+\[
+  \alpha \text{ は真理値が } 0 \text{ である}
+  \quad
+  \Leftrightarrow_{\df}
+  \quad
+  V_i[\alpha] = 0
+\]
+である。ここで \(1\) は真，\(0\) は偽を表す。
+
+\section{SPCのセマンティクス規則}
+
+否定と選言の意味は，ブール代数の補元と和によって与えられる。
+\[
+  \mathrm{SR1}
+  \qquad
+  V_i[\sim \alpha]
+  =
+  - V_i[\alpha]
+\]
+\[
+  \mathrm{SR2}
+  \qquad
+  V_i[\alpha \lor \beta]
+  =
+  V_i[\alpha] + V_i[\beta]
+\]
+
+連言は派生記号であるため，定義に従って計算する。
+\[
+  \begin{aligned}
+  \mathrm{SR3}
+  \qquad
+  V_i[\alpha \land \beta]
+  &=
+  V_i[\sim(\sim\alpha \lor \sim\beta)] \\
+  &=
+  - V_i[\sim\alpha \lor \sim\beta] \\
+  &=
+  -\left(
+    V_i[\sim\alpha] + V_i[\sim\beta]
+  \right) \\
+  &=
+  -\left(
+    - V_i[\alpha] + - V_i[\beta]
+  \right) \\
+  &=
+  -\left\{
+    -\left( V_i[\alpha] \times V_i[\beta] \right)
+  \right\} \\
+  &=
+  V_i[\alpha] \times V_i[\beta]
+  \end{aligned}
+\]
+したがって，連言の真理値は，対応するブール代数の積で与えられる。
+
+含意については，
+\[
+  \begin{aligned}
+  \mathrm{SR4}
+  \qquad
+  V_i[\alpha \supset \beta]
+  &=
+  V_i[\sim\alpha \lor \beta] \\
+  &=
+  V_i[\sim\alpha] + V_i[\beta] \\
+  &=
+  - V_i[\alpha] + V_i[\beta]
+  \end{aligned}
+\]
+である。
+
+同値については，
+\[
+  \mathrm{SR5}
+  \qquad
+  V_i[\alpha \equiv \beta]
+  =
+  V_i[(\alpha \supset \beta) \land (\beta \supset \alpha)]
+\]
+である。すなわち，両方向の含意がともに真であるとき，\(\alpha\) と \(\beta\) は同値である。
+
+\section{基本真理値表}
+
+2つの命題変項 \(p,q\) について，基本的な論理結合子の真理値表は次のようになる。
+
+\begin{center}
+\small
+\begin{tabular}{c|cc|cc|cc|cc|c}
+\toprule
+ & \(p\) & \(q\) & \(\sim p\) & \(\sim q\) & \(p \lor q\) & \(p \land q\)
+ & \(p \supset q\) & \(q \supset p\) & \(p \equiv q\) \\
+\midrule
+\(V_1\) & 1 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \\
+\(V_2\) & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 0 \\
+\(V_3\) & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 \\
+\(V_4\) & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 & 1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+同値は
+\[
+  (p \supset q) \land (q \supset p)
+\]
+として定義される。また，
+\[
+  p \supset q = \sim p \lor q,
+  \qquad
+  q \supset p = \sim q \lor p
+\]
+である。したがって，\(\alpha\) と \(\beta\) の真理値が一致するとき，またそのときに限り，\(\alpha \equiv \beta\) は真になる。
+\[
+  V_i[\alpha \equiv \beta] = 1
+  \quad
+  \Leftrightarrow
+  \quad
+  V_i[\alpha] = V_i[\beta]
+\]
+\[
+  V_i[\alpha \equiv \beta] = 0
+  \quad
+  \Leftrightarrow
+  \quad
+  V_i[\alpha] \neq V_i[\beta]
+\]
+
+\subsection{SPC閉論理式とSPC開論理式}
+
+SPC 論理式は，命題変項を含むかどうかによって分類される。
+\[
+  \left[
+  \begin{array}{l}
+    \text{SPC閉論理式} \\
+    \quad \text{命題変項を含まない式}
+  \end{array}
+  \right.
+\]
+\[
+  \left[
+  \begin{array}{l}
+    \text{SPC開論理式} \\
+    \quad \text{命題変項を含む式}
+  \end{array}
+  \right.
+\]
+
+さらに，真理値表における振る舞いによって，次の3つに分類される。
+\[
+  \left.
+  \begin{array}{l}
+    \text{SPC恒真式} \\
+    \text{SPC偶然式} \\
+    \text{SPC恒偽式}
+  \end{array}
+  \right\}
+\]
+恒真式はすべての付値で真になる式，恒偽式はすべての付値で偽になる式，偶然式は付値によって真にも偽にもなる式である。
+
+\section{問題1}
+
+次の SPC 閉論理式の真理値を求める。ここでは，
+\[
+  A,B,C,\ldots
+  \quad
+  \text{は真なる命題定項}
+\]
+\[
+  L,M,N,\ldots
+  \quad
+  \text{は偽なる命題定項}
+\]
+であると読む。したがって，
+\[
+  A,B,C \to 1,
+  \qquad
+  L,M,N \to 0
+\]
+として計算する。
+
+\begin{enumerate}[label=(\arabic*)]
+  \item
+  \[
+    \sim A \lor (B \supset \sim M) \land \sim C \supset L
+  \]
+  \item
+  \[
+    A \supset \sim B \land C
+    \equiv
+    \sim (L \lor B)
+  \]
+\end{enumerate}
+
+\begin{sidebox}[TBred]{要点}
+  計算では演算の順番が重要である。まず \(\supset\) を Df.2 によって消去し，その後で \(\sim \to -\)，\(\lor \to +\)，\(\land \to \times\) と翻訳する。
+\end{sidebox}
+
+\subsection{(1) の計算}
+
+含意 \(\supset\) は結合が弱いため，与式は
+\[
+  \{\sim A \lor ((B \supset \sim M) \land \sim C)\} \supset L
+\]
+として読む。したがって，
+\[
+  \begin{aligned}
+  V_i[\text{与式}]
+  &=
+  V_i[
+    \sim\{ \sim A \lor (B \supset \sim M) \land \sim C \}
+    \lor L
+  ] \\
+  &=
+  - V_i[
+    \sim A \lor (B \supset \sim M) \land \sim C
+  ]
+  +
+  V_i[L] \\
+  &=
+  -\left\{
+    V_i[\sim A]
+    +
+    V_i[(B \supset \sim M) \land \sim C]
+  \right\}
+  +
+  V_i[L] \\
+  &=
+  -\left\{
+    - V_i[A]
+    +
+    \left(
+      V_i[B \supset \sim M]
+      \times
+      V_i[\sim C]
+    \right)
+  \right\}
+  +
+  V_i[L] \\
+  &=
+  -\left\{
+    - V_i[A]
+    +
+    \left(
+      - V_i[B] + V_i[\sim M]
+    \right)
+    \times
+    V_i[\sim C]
+  \right\}
+  +
+  V_i[L] \\
+  &=
+  -\left\{
+    - V_i[A]
+    +
+    \left(
+      - V_i[B] + - V_i[M]
+    \right)
+    \times
+    - V_i[C]
+  \right\}
+  +
+  V_i[L]
+  \end{aligned}
+\]
+
+\subsection{(1) の数値代入}
+
+\(A,B,C\) は真，\(L,M\) は偽であるから，
+\[
+  V_i[A]=V_i[B]=V_i[C]=1,
+  \qquad
+  V_i[L]=V_i[M]=0
+\]
+である。これを代入すると，
+\[
+  \begin{aligned}
+  V_i[\text{与式}]
+  &=
+  -\left\{
+    -1
+    +
+    (-1 + -0) \times -1
+  \right\}
+  +
+  0 \\
+  &=
+  -\left\{
+    0 + (0+1)\times 0
+  \right\}
+  +
+  0 \\
+  &=
+  -0+0 \\
+  &=
+  1+0 \\
+  &=
+  1
+  \end{aligned}
+\]
+ここで，
+\[
+  -1 = 0
+  \qquad
+  \leftarrow
+  \quad
+  1 \text{ の否定だから}
+\]
+\[
+  -0 = 1
+  \qquad
+  \leftarrow
+  \quad
+  0 \text{ の否定だから}
+\]
+を用いた。したがって，(1) の真理値は \(1\) である。
+
+\subsection{(2) の計算}
+
+まず左辺を計算する。
+\[
+  \begin{aligned}
+  V_i[\text{左辺}]
+  &=
+  V_i[A \supset \sim B \land C] \\
+  &=
+  V_i[\sim A \lor (\sim B \land C)] \\
+  &=
+  -1 + (-1 \times 1) \\
+  &=
+  0 + (0 \times 1) \\
+  &=
+  0
+  \end{aligned}
+\]
+次に右辺を計算する。
+\[
+  \begin{aligned}
+  V_i[\text{右辺}]
+  &=
+  V_i[\sim(L \lor B)] \\
+  &=
+  -(0+1) \\
+  &=
+  -1 \\
+  &=
+  0
+  \end{aligned}
+\]
+左辺と右辺の真理値は一致するため，
+\[
+  V_i[\text{左辺}]
+  =
+  V_i[\text{右辺}]
+\]
+である。したがって，同値式全体の真理値は
+\[
+  V_i[\text{与式}] = 1
+\]
+となる。
+
+\section{SPC恒真式の例}
+
+次の論理式について真理値表を作る。
+\[
+  p \supset (q \supset r \lor p)
+\]
+ここでは，\(r \lor p\)，\(q \supset (r \lor p)\)，\(p \supset (q \supset (r \lor p))\) の順に計算する。
+
+\begin{center}
+\small
+\begin{tabular}{c|ccc|ccc}
+\toprule
+ & \(p\) & \(q\) & \(r\) & \(r \lor p\) & \(q \supset (r \lor p)\) & \(p \supset (q \supset (r \lor p))\) \\
+\midrule
+\(V_1\) & 1 & 1 & 1 & 1 & 1 & 1 \\
+\(V_2\) & 1 & 1 & 0 & 1 & 1 & 1 \\
+\(V_3\) & 1 & 0 & 1 & 1 & 1 & 1 \\
+\(V_4\) & 1 & 0 & 0 & 1 & 1 & 1 \\
+\(V_5\) & 0 & 1 & 1 & 1 & 1 & 1 \\
+\(V_6\) & 0 & 1 & 0 & 0 & 0 & 1 \\
+\(V_7\) & 0 & 0 & 1 & 1 & 1 & 1 \\
+\(V_8\) & 0 & 0 & 0 & 0 & 1 & 1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+最後の列がすべて \(1\) であるため，
+\[
+  p \supset (q \supset r \lor p)
+\]
+は SPC 恒真式である。
+\[
+  \text{SPC恒真式}
+  \qquad
+  \textit{tautology}
+\]
+
+\subsection{命題の分類}
+
+命題は，認識の由来によってアプリオリな命題とアポステリオリな命題に分けられる。
+\[
+  \left\{
+  \begin{array}{l}
+    \text{アプリオリな命題（判断）}
+    \quad
+    \cdots
+    \quad
+    \text{絶対的確実性をもつもの，すなわちつねに真であるもの}
+    \\[1mm]
+    \text{アポステリオリな命題（判断）}
+    \quad
+    \cdots
+    \quad
+    \text{経験に依存し，蓋然的であるもの}
+  \end{array}
+  \right.
+\]
+
+また，判断は分析判断と総合判断にも分けられる。
+\[
+  \left\{
+  \begin{array}{l}
+    \text{分析判断}
+    \quad
+    \cdots
+    \quad
+    \text{述語概念が主語概念のうちに含まれている判断}
+    \\
+    \qquad
+    \mathrm{ex})\
+    \text{「二等辺三角形は三角形である」}
+    \\[1mm]
+    \text{総合判断}
+    \quad
+    \cdots
+    \quad
+    \text{述語概念が主語概念のうちに含まれていない判断}
+    \\
+    \qquad
+    \mathrm{ex})\
+    \text{「すべての物体は質量をもつ」}
+  \end{array}
+  \right.
+\]
+
+\begin{sidebox}[TBred]{判読注意}
+  元資料の「エキモナイ関係」は不鮮明である。文脈上は，述語概念が主語概念に含まれていない関係，すなわち総合判断を説明しているものとして整理した。
+\end{sidebox}
+
+\end{document}

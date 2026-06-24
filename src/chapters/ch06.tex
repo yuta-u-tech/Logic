@@ -1,0 +1,483 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\section{アプリオリな判断と真理値表}
+
+前章では，命題をアプリオリな判断とアポステリオリな判断，また分析判断と総合判断に分けた。この2つの区別を組み合わせると，アプリオリな分析判断は，経験に依存せず，かつ語の意味や概念の包含関係だけで真である判断として理解できる。
+\[
+  \triangleright\ \text{アプリオリな分析判断}
+  \quad
+  \longrightarrow
+  \quad
+  \text{言語上の真理}
+\]
+これに対して，アプリオリな総合判断は，経験に依存しないにもかかわらず，単なる概念分析だけでは得られない判断である。
+\[
+  \triangleright\ \text{アプリオリな総合判断}
+\]
+
+SPC の観点からは，任意の SPC 開論理式 \(\alpha\) について，任意の付値関数 \(V_i\) のもとで
+\[
+  V_i[\alpha] = 1
+\]
+となるならば，\(\alpha\) は恒真式である。すなわち，\(\alpha\) が開論理式であるとき，\(\alpha\) の命題変項に任意の命題定項を代入してできるすべての式が真になる，ということである。
+
+\subsection{問題2}
+
+次の SPC 開論理式について，真理値表を用いて SPC 恒真式，偶然式，恒偽式のいずれであるかを判定する。
+\[
+  (1)\quad
+  p \land (\sim q \supset p)
+\]
+\[
+  (2)\quad
+  (p \supset q) \supset (\sim q \supset \sim p)
+\]
+\[
+  (3)\quad
+  \sim\{(p \supset q) \supset (r \lor p \supset r \lor q)\}
+\]
+
+\begin{sidebox}[TBred]{判読注意}
+  (3) は括弧位置がやや不鮮明である。写真では
+  \[
+    \sim\{(p\supset q)\supset(r\lor p\supset r\lor q)\}
+  \]
+  に見える。以下では，\(r\lor p\supset r\lor q\) を \((r\lor p)\supset(r\lor q)\) と読んで整理する。
+\end{sidebox}
+
+\subsection{問題2(1) の真理値表}
+
+まず
+\[
+  p \land (\sim q \supset p)
+\]
+を考える。\(\sim q\)，\(\sim q \supset p\)，全体式の順に計算する。
+
+\begin{center}
+\begin{tabular}{c|cc|ccc}
+\toprule
+ & \(p\) & \(q\) & \(\sim q\) & \(\sim q \supset p\) & \(p \land (\sim q \supset p)\) \\
+\midrule
+\(V_1\) & 1 & 1 & 0 & 1 & 1 \\
+\(V_2\) & 1 & 0 & 1 & 1 & 1 \\
+\(V_3\) & 0 & 1 & 0 & 1 & 0 \\
+\(V_4\) & 0 & 0 & 1 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+最終列は
+\[
+  \left.
+  \begin{array}{c}
+    1\\
+    1\\
+    0\\
+    0
+  \end{array}
+  \right\}
+  \quad
+  \text{偶然式}
+\]
+である。真になる付値と偽になる付値がともに存在するため，この式は偶然式である。
+
+\subsection{問題2(2) の真理値表}
+
+次に
+\[
+  (p \supset q) \supset (\sim q \supset \sim p)
+\]
+を考える。これは対偶に対応する式であり，古典論理では恒真式になる。
+
+\begin{center}
+\begin{tabular}{c|cc|ccccc}
+\toprule
+ & \(p\) & \(q\) & \(p \supset q\) & \(\sim q\) & \(\sim p\)
+ & \(\sim q \supset \sim p\)
+ & \text{与式}
+\\
+\midrule
+\(V_1\) & 1 & 1 & 1 & 0 & 0 & 1 & 1 \\
+\(V_2\) & 1 & 0 & 0 & 1 & 0 & 0 & 1 \\
+\(V_3\) & 0 & 1 & 1 & 0 & 1 & 1 & 1 \\
+\(V_4\) & 0 & 0 & 1 & 1 & 1 & 1 & 1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+最終列は
+\[
+  \left.
+  \begin{array}{c}
+    1\\
+    1\\
+    1\\
+    1
+  \end{array}
+  \right\}
+  \quad
+  \text{恒真式}
+\]
+である。すべての付値で真であるため，この式は SPC 恒真式である。
+
+\subsection{問題2(3) の真理値表}
+
+最後に
+\[
+  \sim\{(p \supset q) \supset ((r \lor p) \supset (r \lor q))\}
+\]
+を考える。内側の
+\[
+  (p \supset q) \supset ((r \lor p) \supset (r \lor q))
+\]
+は，\(p\) から \(q\) が出るなら，\(r\lor p\) から \(r\lor q\) も出る，という形の式である。したがって，その否定である与式は恒偽式になることが予想される。
+
+\begin{center}
+\small
+\begin{tabular}{c|ccc|cccccc}
+\toprule
+ & \(p\) & \(q\) & \(r\)
+ & \(r \lor p\)
+ & \(r \lor q\)
+ & \((r \lor p) \supset (r \lor q)\)
+ & \(p \supset q\)
+ & \text{内側}
+ & \text{与式}
+\\
+\midrule
+\(V_1\) & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 \\
+\(V_2\) & 1 & 1 & 0 & 1 & 1 & 1 & 1 & 1 & 0 \\
+\(V_3\) & 1 & 0 & 1 & 1 & 1 & 1 & 0 & 1 & 0 \\
+\(V_4\) & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 \\
+\(V_5\) & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 \\
+\(V_6\) & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 0 \\
+\(V_7\) & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 \\
+\(V_8\) & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+最終列はすべて \(0\) である。
+\[
+  \left.
+  \begin{array}{c}
+    0\\
+    0\\
+    0\\
+    0\\
+    0\\
+    0\\
+    0\\
+    0
+  \end{array}
+  \right\}
+  \quad
+  \text{恒偽式}
+\]
+
+\begin{sidebox}[TBred]{判読注意}
+  表の途中列名は一部不鮮明である。最終列はすべて \(0\) であり，恒偽式であるという結論を保持した。
+\end{sidebox}
+
+\section{CNF}
+
+CNF とは，Conjunctive Normal Form の略であり，日本語では乗積標準形または連言標準形と呼ばれる。
+\[
+  \mathrm{CNF}
+  \quad
+  (\text{乗積標準形})
+\]
+
+命題変項 \(p\) そのもの，または命題変項 \(p\) に否定 \(\sim\) をつけたものをリテラルと呼ぶ。
+\[
+  p,
+  \qquad
+  \sim p
+\]
+
+CNF を理解するには，次の形を順に区別すればよい。
+\[
+  (1)\quad
+  \text{リテラル1つのみ}
+\]
+\[
+  p,
+  \qquad
+  \sim p
+\]
+\[
+  (2)\quad
+  \text{リテラルの論理和}
+\]
+\[
+  p \lor \sim p \lor q \lor r
+\]
+\[
+  (3)\quad
+  \text{リテラルの論理積}
+\]
+\[
+  p \land \sim p \land r
+\]
+\[
+  (4)\quad
+  \text{リテラルの論理和の論理積}
+\]
+\[
+  (p \lor \sim p \lor q)
+  \land
+  (p \lor q \lor \sim p)
+  \land
+  \sim q
+  \land
+  (r \lor s)
+\]
+最後の形が CNF である。すなわち，CNF は「論理和でできた節」を，さらに論理積で結合した形である。
+
+\subsection{CNF定理}
+
+任意の論理式は，それと同値な CNF に同値変換によって書き換えることができる。これは，複雑な論理式を標準形へ変形できることを意味する。
+
+\subsection{CNF定理2}
+
+任意の CNF について，各節，すなわち論理積の構成要素となっている論理和を考える。その各節に，ある命題変項 \(r\) とその否定 \(\sim r\) がともに含まれているならば，その節は必ず真になる。
+
+したがって，任意の CNF のすべての節がこのような形であるとき，またそのときに限り，その CNF は SPC 恒真式である。
+
+\begin{sidebox}[TBred]{判読注意}
+  元資料の「相乗項」は手書きではそのように見える。文脈上は，CNF の各節・各項を指しているものと思われる。
+\end{sidebox}
+
+\section{同値変換}
+
+\subsection{分数計算とSPC論理式}
+
+講義ノートには「分数計算で SPC 恒等式がわかる」というメモがある。ここでの趣旨は，代数計算で式を変形するように，SPC 論理式も同値な式へ段階的に変形できる，ということである。
+
+同値変換とは，以下の基本同値式にしたがって，ある論理式をそれと同値な式へ書き換える手続きである。
+\[
+  \langle \text{基本同値式} \rangle
+\]
+
+\paragraph{Eq.1 二重否定律}
+\[
+  p \equiv \sim\sim p
+\]
+
+\paragraph{Eq.2 交換律}
+\[
+  p \lor q \equiv q \lor p,
+  \qquad
+  p \land q \equiv q \land p
+\]
+
+\paragraph{Eq.3 結合律}
+\[
+  p \lor q \lor r \equiv p \lor (q \lor r),
+  \qquad
+  p \land q \land r \equiv p \land (q \land r)
+\]
+
+\paragraph{Eq.4 分配律}
+\[
+  p \lor (q \land r)
+  \equiv
+  (p \lor q) \land (p \lor r)
+\]
+\[
+  p \land (q \lor r)
+  \equiv
+  (p \land q) \lor (p \land r)
+\]
+
+\paragraph{Eq.5 ド・モルガン律}
+\[
+  \sim(p \lor q)
+  \equiv
+  \sim p \land \sim q,
+  \qquad
+  \sim(p \land q)
+  \equiv
+  \sim p \lor \sim q
+\]
+
+\section{問題3}
+
+次の SPC 論理式と同値な CNF で最も簡単な形のものを与え，その SPC 開論理式が SPC 恒真式であるかどうかを判定する。
+\[
+  (1)
+  \qquad
+  \sim p \supset (q \land \sim r) \supset p \lor q
+\]
+
+\subsection{手順}
+
+CNF への変形は，次の手順で行う。
+
+\begin{enumerate}[label=(\arabic*)]
+  \item \(\supset\) を
+  \[
+    \alpha \supset \beta
+    =_{\df}
+    \sim \alpha \lor \beta
+  \]
+  によって消去する。
+
+  \item 二重否定律とド・モルガン律を用いて，否定がリテラルにだけ付く形にする。
+
+  \item 分配律を用いて，リテラルの論理和の論理積，すなわち CNF の形にする。
+
+  \item 結合律，交換律，簡約律などを用いて，式を単純で見やすい形にする。
+\end{enumerate}
+
+\begin{sidebox}[TBred]{判読注意}
+  4番は「結合律，交換律，結合律」に見える。最後は簡約律などの可能性があるため，ここでは「簡約律など」と補って整理した。
+\end{sidebox}
+
+この手順は，私用時にも同じらしい，というメモが残っている。これは，どの論理式でも CNF へ変形する基本方針が同じである，という意味として理解できる。
+
+\subsection{問題3(1) の変形}
+
+与式は，含意の結合の弱さを考慮して
+\[
+  \{\sim p \supset (q \land \sim r)\} \supset (p \lor q)
+\]
+として読む。まず含意を消去する。
+\[
+  \sim p \supset (q \land \sim r) \supset p \lor q
+\]
+\[
+  \equiv
+  \sim\sim p \lor (q \land \sim r) \supset p \lor q
+\]
+\[
+  \equiv
+  \sim(\sim\sim p \lor (q \land \sim r)) \lor (p \lor q)
+\]
+二重否定律を用いると，
+\[
+  \equiv
+  \sim(p \lor (q \land \sim r)) \lor p \lor q
+\]
+となる。次にド・モルガン律を用いる。
+\[
+  \equiv
+  \{\sim p \land \sim(q \land \sim r)\} \lor p \lor q
+\]
+\[
+  \equiv
+  \{\sim p \land (\sim q \lor \sim\sim r)\} \lor p \lor q
+\]
+\[
+  \equiv
+  \{\sim p \land (\sim q \lor r)\} \lor p \lor q
+\]
+最後に分配律を用いて CNF に直す。
+\[
+  \equiv
+  (\sim p \lor p \lor q)
+  \land
+  (\sim q \lor r \lor p \lor q)
+\]
+交換律で見やすく並べ替えると，
+\[
+  \equiv
+  (p \lor \sim p \lor q)
+  \land
+  (p \lor q \lor \sim q \lor r)
+\]
+である。第1節には \(p\) と \(\sim p\) が含まれ，第2節には \(q\) と \(\sim q\) が含まれる。したがって，各節が恒真であり，論理積全体も恒真である。
+\[
+  \therefore
+  \quad
+  \text{これは恒真式である}
+\]
+
+\begin{sidebox}[TBred]{講義メモ}
+  赤字で「和積標準形」および「分配」と何度か注記がある。ここでは，分配律によって CNF，すなわち和積標準形へ変形する点が重要である。
+\end{sidebox}
+
+\section{CNFへの変形例}
+
+次に，やや複雑な式を CNF へ変形する例を見る。
+\[
+  \sim(\sim p \land q)
+  \lor
+  (q \supset r \land s)
+  \supset
+  \sim t
+\]
+まず，ド・モルガン律と含意の定義を用いる。
+\[
+  \equiv
+  p \lor \sim q
+  \lor
+  (\sim q \lor (r \land s))
+  \supset
+  \sim t
+\]
+\[
+  \equiv
+  (p \lor \sim q \lor \sim q \lor (r \land s))
+  \supset
+  \sim t
+\]
+含意を消去する。
+\[
+  \equiv
+  \sim(p \lor \sim q \lor \sim q \lor (r \land s))
+  \lor
+  \sim t
+\]
+ここで，ド・モルガン律
+\[
+  \overline{A \cap B \cap C}
+  =
+  \overline{A} \cup \overline{B} \cup \overline{C}
+\]
+\[
+  \overline{A \cup B \cup C}
+  =
+  \overline{A} \cap \overline{B} \cap \overline{C}
+\]
+に対応する変形を行う。
+\[
+  \equiv
+  \sim p
+  \land
+  \sim\sim q
+  \land
+  \sim\sim q
+  \land
+  \sim(r \land s)
+  \lor
+  \sim t
+\]
+\[
+  \equiv
+  (\sim p \land q)
+  \land
+  q
+  \land
+  (\sim r \lor \sim s)
+  \lor
+  \sim t
+\]
+\[
+  \equiv
+  \sim p \land q \land (\sim r \lor \sim s) \lor \sim t
+\]
+最後に，\(\lor \sim t\) を各部分に分配する。
+\[
+  \equiv
+  (\sim p \lor \sim t)
+  \land
+  (q \lor \sim t)
+  \land
+  (\sim r \lor \sim s \lor \sim t)
+\]
+これが CNF である。講義ノートの「因数分解の簡略化」というメモは，分配律によって積の形にまとめ直す操作を指している。
+
+\end{document}

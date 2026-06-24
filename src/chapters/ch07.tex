@@ -1,0 +1,648 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\section{2項論理関数}
+
+2つの命題変項 \(p,q\) から作られる真理関数を，2項論理関数として考える。代表的な2項論理演算子には，
+\[
+  \lor,\land,\supset,\equiv
+\]
+がある。\(p,q\) の真理値の組は4通りであるため，それぞれの組に対して \(0\) または \(1\) を割り当てる関数は全部で \(2^4=16\) 通り存在する。これを
+\[
+  f_0,f_1,\ldots,f_{15}
+\]
+と表す。
+
+\begin{center}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{c|cc|cccccccccccccccc}
+\toprule
+ & \(p\) & \(q\)
+ & \(f_0\) & \(f_1\) & \(f_2\) & \(f_3\) & \(f_4\) & \(f_5\) & \(f_6\) & \(f_7\)
+ & \(f_8\) & \(f_9\) & \(f_{10}\) & \(f_{11}\) & \(f_{12}\) & \(f_{13}\) & \(f_{14}\) & \(f_{15}\)
+\\
+\midrule
+\(V_3\) & 1 & 1 & 0&0&0&0&0&0&0&1&1&1&1&1&1&1&1&1 \\
+\(V_2\) & 1 & 0 & 0&0&0&0&1&1&1&1&0&0&0&1&1&1&1&1 \\
+\(V_1\) & 0 & 1 & 0&0&1&1&0&0&1&1&0&0&1&0&0&1&1&1 \\
+\(V_0\) & 0 & 0 & 0&1&0&1&0&1&0&1&0&1&0&1&0&1&0&1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{sidebox}[TBred]{判読注意}
+  表の各 \(f_i\) の値は写真からできるだけ読み取ったものである。細部は不鮮明なため，再確認が必要である。
+\end{sidebox}
+
+\subsection{基本的な2項論理関数}
+
+\paragraph{\texorpdfstring{\(f_0\)}{f0}}
+\[
+  f_0
+  =
+  f_{0000}
+  =
+  p \land \sim p
+  =
+  q \land \sim q
+  =
+  0
+\]
+\(f_0\) はすべての付値で \(0\) になる関数であり，恒偽関数である。
+
+\paragraph{\texorpdfstring{\(f_1\)}{f1}}
+\[
+  f_1
+  =
+  f_{0001}
+  =
+  \sim f_{1000}
+  =
+  \sim(p \lor q)
+\]
+\[
+  \equiv
+  \sim p \land \sim q
+\]
+これは，\(p\) も \(q\) も偽であるときにだけ真になる関数である。
+
+\paragraph{\texorpdfstring{\(f_2\)}{f2}}
+\[
+  f_2
+  =
+  f_{0010}
+  =
+  f_{001}
+\]
+
+\begin{sidebox}[TBred]{判読注意}
+  \(f_2\) の添字は不鮮明である。表の値からは，\(p=0,q=1\) のときにだけ真になる関数として読める。
+\end{sidebox}
+
+\paragraph{\texorpdfstring{\(f_3\)}{f3}}
+\[
+  f_3
+  =
+  f_{0011}
+  =
+  \sim f_{1100}
+  =
+  \sim p
+\]
+この関数では \(q\) の値は結果に影響しない。したがって，講義ノートでは
+\[
+  q \text{ は従属変項}
+\]
+と記されている。
+
+\paragraph{\texorpdfstring{\(f_4\)}{f4}}
+\[
+  f_4
+  =
+  f_{0100}
+  =
+  \sim f_{1011}
+  =
+  \sim(p \supset q)
+  =
+  \sim(\sim p \lor q)
+\]
+\[
+  =
+  p \land \sim q
+\]
+これは，\(p\) が真で \(q\) が偽のときにだけ真になる関数である。
+
+\section{2項論理関数の続き}
+
+\paragraph{\texorpdfstring{\(f_5\)}{f5}}
+\[
+  f_5
+  =
+  f_{0101}
+  =
+  \sim f_{1010}
+  =
+  \sim q
+\]
+この関数では \(p\) の値は結果に影響しない。したがって，
+\[
+  p \text{ は従属変項}
+\]
+と記されている。
+
+\paragraph{\texorpdfstring{\(f_6\)}{f6}}
+\[
+  f_6
+  =
+  f_{0110}
+  =
+  \sim f_{1001}
+  =
+  \sim(p \equiv q)
+\]
+\[
+  =
+  \sim\{(p \supset q) \land (q \supset p)\}
+\]
+\[
+  =
+  \sim\{(\sim p \lor q) \land (\sim q \lor p)\}
+\]
+ド・モルガン律を用いると，
+\[
+  =
+  \sim(\sim p \lor q)
+  \lor
+  \sim(\sim q \lor p)
+\]
+\[
+  \equiv
+  (p \land \sim q)
+  \lor
+  (q \land \sim p)
+\]
+となる。これは排他的論理和であり，\(p\) と \(q\) の真理値が異なるときに真になる。
+
+さらに CNF に直すと，
+\[
+  \equiv
+  (p \lor q)
+  \land
+  (p \lor \sim p)
+  \land
+  (\sim q \lor q)
+  \land
+  (\sim q \lor \sim p)
+\]
+恒真な節を省けば，
+\[
+  \equiv
+  (p \lor q)
+  \land
+  (\sim q \lor \sim p)
+\]
+である。
+
+\paragraph{\texorpdfstring{\(f_7\)}{f7}}
+\[
+  f_7
+  =
+  f_{0111}
+  =
+  \sim f_{1000}
+  =
+  \sim(p \land q)
+\]
+\[
+  \equiv
+  \sim p \lor \sim q
+\]
+これは NAND に対応する関数である。
+
+\paragraph{\texorpdfstring{\(f_8\)}{f8}}
+\[
+  f_8
+  =
+  f_{1000}
+  =
+  p \land q
+\]
+これは連言であり，\(p,q\) がともに真のときだけ真になる。
+
+\paragraph{\texorpdfstring{\(f_9\)}{f9}}
+\[
+  f_9
+  =
+  f_{1001}
+  =
+  (p \equiv q)
+\]
+\[
+  =
+  (p \supset q) \land (q \supset p)
+\]
+\[
+  =
+  (\sim p \lor q) \land (\sim q \lor p)
+\]
+これは同値であり，\(p,q\) の真理値が一致するときに真になる。
+
+\paragraph{\texorpdfstring{\(f_{10}\)}{f10}}
+\[
+  f_{10}
+  =
+  f_{1010}
+  =
+  q
+  \qquad
+  p \text{ は従属変項}
+\]
+この関数は \(q\) の値だけで決まる。
+
+\paragraph{\texorpdfstring{\(f_{11}\)}{f11}}
+\[
+  f_{11}
+  =
+  f_{1011}
+  =
+  p \supset q
+  =
+  \sim p \lor q
+\]
+これは含意であり，\(p\) が真で \(q\) が偽の場合にだけ偽になる。
+
+\paragraph{\texorpdfstring{\(f_{12}\)}{f12}}
+\[
+  f_{12}
+  =
+  f_{1100}
+  =
+  p \lor q
+\]
+これは選言であり，\(p,q\) の少なくとも一方が真のときに真になる。
+
+\paragraph{\texorpdfstring{\(f_{13}\)}{f13}}
+\[
+  f_{13}
+  =
+  f_{1101}
+  =
+  f_{1100} \lor f_{0001}
+\]
+\[
+  \equiv
+  p \lor \sim(p \lor q)
+\]
+\[
+  \equiv
+  p \lor (\sim p \land \sim q)
+\]
+\[
+  \equiv
+  (p \lor \sim p) \land (p \lor \sim q)
+\]
+\[
+  \equiv
+  p \lor \sim q
+\]
+これは \(q \supset p\) と同値である。
+
+\section{\texorpdfstring{\(f_{14}\)}{f14} と NAND}
+
+続いて，元資料では \(f_{14}\) に関する計算が示されている。ただし，添字の記述には不整合があるため，式変形そのものを保持しつつ注意を付す。
+\[
+  f_{14}
+  =
+  f_{0010}
+  =
+  \sim f_{1101}
+\]
+\[
+  =
+  \sim(p \lor \sim q)
+\]
+\[
+  =
+  \sim p \land q
+\]
+
+\begin{sidebox}[TBred]{判読注意}
+  \(f_{14}=f_{0010}\) という記述は，添字の番号としては不自然である。\(f_{0010}\) は通常 \(f_2\) に対応するため，元資料の番号に誤記または判読上の問題がある可能性が高い。ここでは講義ノートの式列を保持する。
+\end{sidebox}
+
+\subsection{NAND演算子}
+
+NAND 演算子は，連言の否定を表す演算子である。ここでは \(p \mid q\) と書き，
+\[
+  p \mid q
+  =_{\df}
+  \sim(p \land q)
+  =
+  \sim p \lor \sim q
+\]
+と定義する。
+
+NAND は，否定・選言・連言をすべて表現できる。まず，否定は
+\[
+  \sim p
+  =_{\df}
+  p \mid p
+\]
+と表される。実際，\(p \mid p=\sim(p\land p)=\sim p\) である。
+
+次に，選言は二重否定とド・モルガン律を用いて
+\[
+  p \lor q
+  =
+  \sim\sim p \lor \sim\sim q
+\]
+と書ける。したがって，
+\[
+  p \lor q
+  =
+  \sim p \mid \sim q
+\]
+であり，さらに \(\sim p=p\mid p\)，\(\sim q=q\mid q\) を代入すれば
+\[
+  p \lor q
+  =
+  (p \mid p) \mid (q \mid q)
+\]
+となる。つまり，NAND だけで選言を表現できる。
+
+\begin{sidebox}[TBred]{講義メモ}
+  元資料には「棒の長さのみで括弧の範囲を表示する」とある。NAND 記法では，縦棒の範囲がどこまでかによって式の構造が変わるため，括弧の代わりに棒の長さで結合範囲を示す記法が使われることがある。
+\end{sidebox}
+
+最下部には，真理値の列または記号列に関するメモが残っている。
+\[
+  \begin{array}{c|cccccccc}
+   & p & q & r & s & t & u & v & \cdots \\ \hline
+   & 1 & 0 & 1 & 1 & 1 & 0 & 3 &  \\
+   & 0 & 0 & 1 & 1 & 0 & 10 &  &
+  \end{array}
+\]
+\[
+  p0q0r1s0t0u10v
+  \quad
+  \leftarrow
+  \text{下の方と 0,1 のみ}
+\]
+
+\begin{sidebox}[TBred]{判読注意}
+  最下部の記号列はかなり不鮮明である。写真では
+  \[
+    p0q0r1s0t0u10v
+  \]
+  のように見える。
+\end{sidebox}
+
+\section{問題3：CNFと恒等式の判定}
+
+次の SPC 開論理式と同値で最も簡単な CNF を作り，その SPC 論理式が恒等式であるかどうかを判定する。
+\[
+  (1)
+  \qquad
+  \sim(p \land \sim q)
+  \land
+  (q \supset \sim r)
+  \supset
+  (\sim p \lor \sim r)
+\]
+\[
+  (2)
+  \qquad
+  (p \supset \sim q)
+  \lor
+  \left\{
+    p \land \sim(r \supset \sim s)
+  \right\}
+  \supset t
+\]
+
+\subsection{問題3(1) の変形}
+
+まず，含意を消去する。与式は
+\[
+  \{\sim(p \land \sim q) \land (q \supset \sim r)\}
+  \supset
+  (\sim p \lor \sim r)
+\]
+として読む。
+\[
+  \equiv
+  \sim\left\{
+    \sim(p \land \sim q)
+    \land
+    (q \supset \sim r)
+  \right\}
+  \lor
+  (\sim p \lor \sim r)
+\]
+\[
+  \equiv
+  \sim\left\{
+    \sim(p \land \sim q)
+    \land
+    (\sim q \lor \sim r)
+  \right\}
+  \lor
+  (\sim p \lor \sim r)
+\]
+ここで
+\[
+  \sim(p \land \sim q)
+  \equiv
+  \sim p \lor q
+\]
+であり，また元資料では \(\sim q \lor \sim r\) の否定を \(q \land r\) として扱う流れが示されている。したがって，
+\[
+  \equiv
+  \sim\left\{
+    (\sim p \lor q)
+    \land
+    (\sim q \lor \sim r)
+  \right\}
+  \lor
+  (\sim p \lor \sim r)
+\]
+\[
+  \equiv
+  \sim(\sim p \lor q)
+  \lor
+  \sim(\sim q \lor \sim r)
+  \lor
+  (\sim p \lor \sim r)
+\]
+\[
+  \equiv
+  (p \land \sim q)
+  \lor
+  (q \land r)
+  \lor
+  \sim p
+  \lor
+  \sim r
+\]
+この式には \(\sim p \lor p\) および \(\sim r \lor r\) を作る成分が含まれるため，全体は恒真式へ簡約される。元資料の赤字部分では，次のように黒字変形の訂正・再掲が行われている。
+\[
+  \equiv
+  \sim(\sim p \lor q)
+  \lor
+  \sim(q \land r)
+  \lor
+  (\sim p \lor \sim r)
+\]
+\[
+  \equiv
+  (p \land \sim q)
+  \lor
+  (\sim q \lor \sim r)
+  \lor
+  (\sim p \lor \sim r)
+\]
+\[
+  \equiv
+  p \land \sim q
+  \lor
+  \sim q
+  \lor
+  \sim r
+  \lor
+  \sim p
+  \lor
+  \sim r
+\]
+
+\begin{sidebox}[TBred]{判読注意}
+  赤字部分は黒字変形の訂正・再掲に見える。途中で \(q \land r\) と \(\sim(q\land r)\) の扱いが混在しているため，元資料の意図を残しつつ，最終的には恒真性の判定に必要な形へ整理した。
+\end{sidebox}
+
+\subsection{問題3(2) の変形}
+
+次に，
+\[
+  (p \supset \sim q)
+  \lor
+  \left\{
+    p \land \sim(r \supset \sim s)
+  \right\}
+  \supset t
+\]
+を変形する。含意を消去すると，
+\[
+  \equiv
+  \sim\left[
+    (p \supset \sim q)
+    \lor
+    \left\{
+      p \land \sim(r \supset \sim s)
+    \right\}
+  \right]
+  \lor t
+\]
+である。元資料の変形は，否定を内側へ入れて
+\[
+  \equiv
+  \sim p \lor \sim q
+  \lor
+  \sim
+  \left\{
+    p \land \sim(\sim r \lor \sim s)
+  \right\}
+  \lor t
+\]
+と書かれている。さらにド・モルガン律を用いると，
+\[
+  \equiv
+  \sim p \lor \sim q
+  \lor
+  \sim p
+  \lor
+  (\sim r \lor \sim s)
+  \lor t
+\]
+となり，重複を省いて
+\[
+  \equiv
+  \sim p
+  \lor
+  \sim q
+  \lor
+  \sim r
+  \lor
+  \sim s
+  \lor
+  t
+\]
+を得る。これは1つの節からなる CNF である。
+
+\begin{sidebox}[TBred]{判読注意}
+  手書きでは \(\sim s\) が \(\sim e\) のようにも見えるが，問題文が \(s\) のため \(\sim s\) とした。
+\end{sidebox}
+
+\section{問題4：2項真理関数とCNF}
+
+次の (1)，(2) は \(p,q\) を変項とする2項の真理関数である。それぞれを最も簡単な CNF の形で SPC 論理式にする。
+\[
+  (1)
+  \qquad
+  f_1(p,q)
+\]
+\[
+  (2)
+  \qquad
+  f_2(p,q)
+\]
+
+\subsection{問題4(1)}
+
+\[
+  f_1(p,q)
+  =
+  f_{0001}
+  =
+  \sim f_{1110}
+\]
+\[
+  =
+  \sim(p \lor q)
+\]
+\[
+  =
+  \sim p \land \sim q
+\]
+したがって，\(f_1(p,q)\) の最も簡単な CNF は
+\[
+  \sim p \land \sim q
+\]
+である。
+
+\subsection{問題4(2)}
+
+\[
+  f_2(p,q)
+  =
+  f_{0010}
+  =
+  \sim f_{1101}
+\]
+\[
+  =
+  \sim(f_{1100} \lor f_{0001})
+\]
+\[
+  =
+  \sim
+  \left\{
+    p \lor (\sim p \land \sim q)
+  \right\}
+\]
+\[
+  =
+  \sim p
+  \land
+  (p \lor q)
+\]
+分配律を用いれば，
+\[
+  =
+  (\sim p \land p)
+  \lor
+  (\sim p \land q)
+\]
+である。第1項は矛盾式であるため消え，
+\[
+  =
+  \sim p \land q
+\]
+となる。したがって，\(f_2(p,q)\) の最も簡単な CNF は
+\[
+  \sim p \land q
+\]
+である。
+
+\end{document}
