@@ -1,0 +1,295 @@
+% REVIEW-ID: logic.ch08.pm-proof-system
+% REVIEW-TITLE: PM証明体系
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section{PM証明体系}
+
+PM 証明体系は，少数の公理と原始導出規則から定理を導く形式体系である。証明可能性を
+\[
+  \mathrm{PM}\vdash\alpha
+\]
+と書き，仮定集合からの導出を
+\[
+  \mathrm{PM}\mid\alpha_1,\ldots,\alpha_n\vdash\beta
+\]
+と書く。
+
+\begin{sidebox}[TBred]{証明式の読み方}
+  \(\mathrm{PM}\vdash\alpha\) は「仮定なしに，PM の公理と規則から \(\alpha\) を証明できる」と読む。\(\mathrm{PM}\mid\alpha_1,\ldots,\alpha_n\vdash\beta\) は，縦線の後の式を仮定して \(\beta\) を導けるという意味である。記号 \(\vdash\) 自体は含意記号 \(\supset\) ではなく，論理式の外側で証明可能性を述べるメタ記号である。
+\end{sidebox}
+
+\subsection{公理}
+
+PM の公理図式は次の4つである。
+\[
+  \mathrm{A1}
+  \qquad
+  p\lor p \supset p
+\]
+\[
+  \mathrm{A2}
+  \qquad
+  p \supset p\lor q
+\]
+\[
+  \mathrm{A3}
+  \qquad
+  p\lor q \supset q\lor p
+\]
+\[
+  \mathrm{A4}
+  \qquad
+  (p\supset q)
+  \supset
+  \{(r\lor p)\supset(r\lor q)\}
+\]
+
+公理は証明なしに利用できるが，それ以外の式は公理と導出規則から有限回の操作によって得なければならない。
+
+\subsection{原始導出規則}
+
+\paragraph{一様代入規則}
+
+命題変項 \(p\) を含む式 \(\alpha[p]\) において，\(p\) のすべての出現を任意の式 \(\beta\) で一様に置換して得られる式を \(\alpha[\beta]\) とする。一様代入規則 PDR1 は
+\[
+  \frac{\mathrm{PM}\vdash\alpha[p]}
+       {\mathrm{PM}\vdash\alpha[\beta]}
+  \quad\mathrm{PDR1}
+\]
+である。
+
+\paragraph{分離規則}
+
+式 \(\alpha\) と \(\alpha\supset\beta\) がともに証明可能ならば，\(\beta\) も証明可能である。
+\[
+  \frac{\mathrm{PM}\vdash\alpha
+    \qquad
+    \mathrm{PM}\vdash\alpha\supset\beta}
+       {\mathrm{PM}\vdash\beta}
+  \quad\mathrm{PDR2}
+\]
+これは modus ponens に対応する。
+
+\subsection{派生導出規則}
+
+証明済みの定理をまとめて利用するため，次の派生導出規則を用いる。
+
+\paragraph{PDR3}
+
+\[
+  \frac{\mathrm{PM}\vdash\alpha\supset\beta
+    \qquad
+    \mathrm{PM}\vdash\beta\supset\gamma}
+       {\mathrm{PM}\vdash\alpha\supset\gamma}
+  \quad\mathrm{PDR3}
+\]
+
+\paragraph{DRX}
+
+仮定を伴う形では，含意を連鎖させる規則を
+\[
+  \frac{\mathrm{PM}\mid\alpha\vdash\beta
+    \qquad
+    \mathrm{PM}\mid\alpha\vdash\beta\supset\gamma}
+       {\mathrm{PM}\mid\alpha\vdash\gamma}
+  \quad\mathrm{DRX}
+\]
+と書く。
+
+\section{PMにおける証明例}
+
+証明では，各行の右側に使用した公理，定理または導出規則を明記する。
+
+\subsection{定理1}
+
+\[
+  \mathrm{PM\text{-}Th.1}
+  \qquad
+  (q\supset r)
+  \supset
+  \{(p\supset q)\supset(p\supset r)\}
+\]
+この定理は含意の推移性を表し，後の派生導出規則 PDR3 の根拠となる。
+
+\subsection{定理2：反射律}
+
+\[
+  \mathrm{PM\text{-}Th.2}
+  \qquad
+  p\supset p
+\]
+証明は次のとおりである。
+\begin{align*}
+  1.\quad &
+  (q\supset r)
+  \supset
+  \{(p\supset q)\supset(p\supset r)\}
+  &&[\mathrm{PM\text{-}Th.1}]\\
+  2.\quad &
+  (p\lor q\supset p)
+  \supset
+  \{(p\supset p\lor q)\supset(p\supset p)\}
+  &&[1,\mathrm{PDR1}]\\
+  3.\quad &
+  p\lor p\supset p
+  &&[\mathrm{A1}]\\
+  4.\quad &
+  (p\supset p\lor p)\supset(p\supset p)
+  &&[2,3,\mathrm{PDR2}]\\
+  5.\quad &
+  p\supset p\lor p
+  &&[\mathrm{A2}]\\
+  6.\quad &
+  p\supset p
+  &&[4,5,\mathrm{PDR2}]
+\end{align*}
+
+\subsection{定理3：排中律}
+
+\[
+  \mathrm{PM\text{-}Th.3}
+  \qquad
+  p\lor\sim p
+\]
+定理2と一様代入および派生規則を用いることで導出できる。公理 A1--A4 をどの定理から組み立てるかを確認し，各行の根拠を追跡することが重要である。
+
+\subsection{定理4：二重否定}
+
+\[
+  \mathrm{PM\text{-}Th.4}
+  \qquad
+  p\equiv\sim\sim p
+\]
+これは次の2方向に分けて証明する。
+\[
+  \mathrm{PM\text{-}Th.4a}
+  \qquad
+  p\supset\sim\sim p
+\]
+\[
+  \mathrm{PM\text{-}Th.4b}
+  \qquad
+  \sim\sim p\supset p
+\]
+定理4aについて，排中律を用いる証明の骨格は次のとおりである。
+\begin{align*}
+  1.\quad & p\lor\sim p
+  &&[\mathrm{PM\text{-}Th.3}]\\
+  2.\quad & \sim p\lor\sim\sim p
+  &&[1,\mathrm{PDR1}:p\mapsto\sim p]\\
+  3.\quad & p\supset\sim\sim p
+  &&[2,\text{含意の定義}]
+\end{align*}
+定理4bと合わせることにより \(p\equiv\sim\sim p\) が得られる。
+
+\subsection{含意の連鎖の例}
+
+仮定
+\[
+  \mathrm{PM}\vdash\alpha\supset\beta,
+  \qquad
+  \mathrm{PM}\vdash\beta\supset\gamma
+\]
+から \(\mathrm{PM}\vdash\alpha\supset\gamma\) を導くには，定理1を一様代入した式
+\[
+  (\beta\supset\gamma)
+  \supset
+  \{(\alpha\supset\beta)\supset(\alpha\supset\gamma)\}
+\]
+に PDR2 を2回適用すればよい。これにより PDR3 が導かれる。
+
+\subsection{選言に関する派生導出規則}
+
+公理 A4 と一様代入によって，含意の両辺へ同じ選言肢を付加できる。
+\[
+  \frac{\mathrm{PM}\vdash\alpha\supset\beta}
+       {\mathrm{PM}\vdash\gamma\lor\alpha\supset\gamma\lor\beta}
+  \quad\mathrm{DR4}
+\]
+交換律を組み合わせれば，次の変形も得られる。
+\[
+  \frac{\mathrm{PM}\vdash\alpha\supset\beta}
+       {\mathrm{PM}\vdash\gamma\lor\alpha\supset\beta\lor\gamma}
+  \quad\mathrm{DR4'}
+\]
+\[
+  \frac{\mathrm{PM}\vdash\alpha\supset\beta}
+       {\mathrm{PM}\vdash\alpha\lor\gamma\supset\gamma\lor\beta}
+  \quad\mathrm{DR4''}
+\]
+\[
+  \frac{\mathrm{PM}\vdash\alpha\supset\beta}
+       {\mathrm{PM}\vdash\alpha\lor\gamma\lor\delta
+        \supset\gamma\lor\beta\lor\delta}
+  \quad\mathrm{DR4'''}
+\]
+また，SPC の恒真式 \(T\) に対し，\(T\) の命題変項を一様に置換して得られる式 \(\alpha\) は PM で証明できる。この定理適用の規則を
+\[
+  \frac{T\text{ は SPC 恒真式},\quad T<\alpha}
+       {\mathrm{PM}\vdash\alpha}
+  \quad\mathrm{DR\text{-}E8}
+\]
+と表す。
+
+\section{PMの健全性と完全性}
+
+SPC の意味論的恒真性を \(\mathrm{SPC}\vDash\alpha\)，PM における証明可能性を \(\mathrm{PM}\vdash\alpha\) と書く。また，\(\mathrm{PM}\nvdash\alpha\) は \(\alpha\) が PM で証明できないことを表す。
+
+\subsection{健全性}
+
+PM の健全性とは，任意の式 \(\alpha\) について
+\[
+  \mathrm{PM}\vdash\alpha
+  \quad\Longrightarrow\quad
+  \mathrm{SPC}\vDash\alpha
+\]
+が成り立つことである。すなわち，PM で証明できる式は必ず SPC の恒真式である。
+
+健全性は，次の3点を確認することで示される。
+\begin{enumerate}
+  \item 公理 A1--A4 がすべて恒真式である。
+  \item 一様代入規則 PDR1 が恒真性を保存する。
+  \item 分離規則 PDR2 が恒真性を保存する。
+\end{enumerate}
+例えば A1 について，\(V_i[p]=1\) のときも \(V_i[p]=0\) のときも
+\[
+  V_i[p\lor p\supset p]=1
+\]
+となるため恒真式である。また，\(\alpha\) と \(\alpha\supset\beta\) がともに恒真ならば，任意の付値で \(\alpha\) は真であり，かつ \(\alpha\supset\beta\) も真であるから，\(\beta\) は真である。したがって PDR2 は恒真性を保存する。
+
+\subsection{無矛盾性}
+
+健全性から，任意の式 \(\alpha\) について
+\[
+  \mathrm{PM}\vdash\alpha
+  \quad\Longrightarrow\quad
+  \mathrm{PM}\nvdash\sim\alpha
+\]
+が従う。\(\alpha\) と \(\sim\alpha\) が同時に恒真式となることはないためである。この性質を PM の無矛盾性という。
+
+\subsection{完全性}
+
+PM の完全性とは，任意の式 \(\alpha\) について
+\[
+  \mathrm{SPC}\vDash\alpha
+  \quad\Longrightarrow\quad
+  \mathrm{PM}\vdash\alpha
+\]
+が成り立つことである。証明の概略は次のとおりである。
+\begin{enumerate}
+  \item 任意の PM 論理式を，同値変形によって同値な CNF に変形する。
+  \item 各同値変形が PM の派生導出規則として証明できることを示す。
+  \item 恒真式 \(\alpha\) と同値な CNF \(\alpha'\) について \(\mathrm{PM}\vdash\alpha'\) を示す。
+  \item 同値性から \(\mathrm{PM}\vdash\alpha\) を得る。
+\end{enumerate}
+
+したがって，健全性と完全性を合わせると，
+\[
+  \mathrm{SPC}\vDash\alpha
+  \quad\Longleftrightarrow\quad
+  \mathrm{PM}\vdash\alpha
+\]
+となり，意味論的な恒真性と構文論的な証明可能性が一致する。
+
+\end{document}

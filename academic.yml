@@ -1,0 +1,9 @@
+# academic.yml — 科目リポジトリの構造宣言（academic-infra が読む）
+course_id: logic
+course_name: 論理学
+main_tex: src/main.tex
+source_dir: src
+chapters_dir: src/chapters
+engine: lualatex
+output_dir: dist
+drive_folder_name: 論理学

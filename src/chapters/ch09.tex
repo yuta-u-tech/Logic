@@ -1,0 +1,233 @@
+% REVIEW-ID: logic.ch09.simple-predicate-calculus-semantics-syntax
+% REVIEW-TITLE: 単純述語論理算の構文論と意味論
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section{単純述語論理算の構文論と意味論}
+
+標準命題算 SPC では命題を単位として扱ったが，単純述語論理算 SLPC では個体，述語および量化子を導入し，命題の内部構造を表現する。本節では SLPC の論理式を構成する規則と，モデルにおける真理条件を整理する。
+
+\begin{sidebox}[TBred]{定項・変項・述語}
+  個体定項 \(a\) は特定の対象を指す名前，個体変項 \(x\) は議論領域内を動く空所，述語 \(P\) は対象が満たす性質または関係である。したがって \(P(a)\) は文として真偽をもつが，\(P(x)\) は \(x\) が自由なままなら未完成の条件を表す。
+\end{sidebox}
+
+\subsection{述語と述語論理算}
+
+述語は，個体がもつ性質または複数の個体間の関係を表す。例えば，\(P(x)\) を「\(x\) は \(P\) である」と解釈すれば \(P\) は性質を表す単項述語であり，\(Q(x,y,z)\) は3個体の間の関係を表す3項述語である。標準1階述語論理算 SLPC は \emph{Standard Lower-ordered Predicate Calculus} の略称であり，フレーゲが1897年および1903年の著作で展開した述語論理を源流とする。
+
+\subsection{原始記号}
+
+SLPC の原始記号は次のとおりである。
+\begin{itemize}
+  \item \(a,b,c,\ldots\)：個体定項
+  \item \(x,y,z,\ldots\)：個体変項
+  \item \(P,Q,\ldots\)：述語記号
+  \item \(\exists\)：存在量化子
+  \item SPC の命題結合子および補助記号
+\end{itemize}
+個体定項と個体変項をまとめて個体記号と呼ぶ。
+
+\subsection{構成規則}
+
+SLPC 論理式は次の規則によって帰納的に構成される。
+
+\begin{description}
+  \item[FR0] \(n\) 項述語記号 \(P\) と個体記号 \(t_1,\ldots,t_n\) に対し，
+  \[
+    P(t_1,\ldots,t_n)
+  \]
+  は SLPC 論理式である。この形の式を SLPC 原子式と呼ぶ。
+
+  \item[FR1] SLPC 論理式 \(\alpha_1,\ldots,\alpha_m\) を含む SPC 論理式の命題記号を，それぞれ \(\alpha_1,\ldots,\alpha_m\) で一様に置き換えて得られる式は SLPC 論理式である。
+
+  \item[FR2] 個体変項 \(x\) を含む SLPC 論理式 \(\alpha(x)\) に対し，
+  \[
+    \exists x\,[\alpha(x)]
+  \]
+  は SLPC 論理式である。
+\end{description}
+
+例えば，次の式はいずれも SLPC 論理式である。
+\[
+  P(x,y,a)
+\]
+\[
+  P \supset (\sim Q \land S \supset \sim R)
+\]
+\[
+  P(a,b) \supset
+  \left\{
+    \sim Q(a) \land S(x,y) \supset \sim Q(y)
+  \right\}
+\]
+
+普遍量化子は存在量化子と否定を用いて定義する。
+\[
+  \forall x\,[\alpha(x)]
+  =_{\mathrm{df}}
+  \sim \exists x\,[\sim \alpha(x)]
+\]
+
+\subsection{束縛変項と自由変項}
+
+量化子 \(\forall x\) または \(\exists x\) が作用する式の範囲をその量化子のスコープと呼ぶ。スコープ内で量化子に支配される \(x\) は束縛変項であり，いずれの量化子にも支配されない変項は自由変項である。例えば，
+\[
+  \forall x\,\forall y\,\exists z
+  \left[
+    P(x,y) \supset
+    \left\{
+      Q(z) \land Q(x,y) \supset \exists x\,Q(x,z)
+    \right\}
+  \right]
+\]
+では，同じ文字 \(x\) であっても，内側の \(\exists x\) のスコープにある出現は外側の \(\forall x\) ではなく内側の量化子に束縛される。量化子の順序を交換すると一般には意味が変わり，例えば
+\[
+  \exists x\,\forall y\,[P(x,y)]
+  \qquad\text{と}\qquad
+  \forall y\,\exists x\,[P(x,y)]
+\]
+は同値とは限らない。
+
+自由変項を含まない論理式を SLPC 閉論理式，自由変項を含む論理式を SLPC 開論理式と呼ぶ。
+
+\section{SLPCのセマンティクス}
+
+SLPC のモデルを
+\[
+  \mathcal{M}
+  =
+  \left\langle
+    M,V^{\mathcal{M}}
+  \right\rangle
+\]
+とする。ここで \(M\) は空でない議論領域，\(V^{\mathcal{M}}\) は原始記号に解釈を与える付値関数である。
+
+\subsection{原始記号の解釈}
+
+任意の個体定項 \(a\) について，その指示対象は議論領域の要素である。
+\[
+  V^{\mathcal{M}}[a] \in M
+\]
+
+任意の単項述語記号 \(P\) について，その外延は \(M\) の部分集合である。
+\[
+  V^{\mathcal{M}}[P(x)] \subseteq M
+\]
+
+任意の \(n\) 項述語記号 \(P\) について，その外延は \(M^n\) の部分集合である。
+\[
+  V^{\mathcal{M}}[P(x_1,\ldots,x_n)] \subseteq M^n
+\]
+ただし，
+\[
+  M^n
+  =_{\mathrm{df}}
+  \left\{
+    \left\langle u_1,\ldots,u_n\right\rangle
+    \mathrel{}
+    \middle|
+    \mathrel{}
+    u_1,\ldots,u_n \in M
+  \right\}
+\]
+である。
+
+\subsection{真理条件}
+
+単項述語からなる原子式 \(P(a)\) の真理条件は
+\[
+  V^{\mathcal{M}}[P(a)] = 1
+  \quad\Longleftrightarrow\quad
+  V^{\mathcal{M}}[a] \in V^{\mathcal{M}}[P(x)]
+\]
+である。一般の \(n\) 項述語については，
+\[
+  V^{\mathcal{M}}[P(a_1,\ldots,a_n)] = 1
+\]
+\[
+  \quad\Longleftrightarrow\quad
+  \left\langle
+    V^{\mathcal{M}}[a_1],\ldots,V^{\mathcal{M}}[a_n]
+  \right\rangle
+  \in
+  V^{\mathcal{M}}[P(x_1,\ldots,x_n)]
+\]
+となる。
+
+議論領域を \(M=\{a_i\mid i\in I\}\) と表すとき，量化式の真理値は各代入例の真理値によって定まる。
+\[
+  V^{\mathcal{M}}[\exists x\,\alpha(x)]
+  =
+  \bigvee_{i\in I}V^{\mathcal{M}}[\alpha(a_i)]
+\]
+\[
+  V^{\mathcal{M}}[\forall x\,\alpha(x)]
+  =
+  \bigwedge_{i\in I}V^{\mathcal{M}}[\alpha(a_i)]
+\]
+すなわち，存在量化は少なくとも1つの代入例が真であるとき真であり，普遍量化はすべての代入例が真であるとき真である。この意味で，存在量化は選言，普遍量化は連言の一般化である。
+
+\section{述語論理と集合論の基礎}
+
+述語論理は集合論の記述に用いられるが，無制限に集合を作るとパラドックスが生じる。この問題は，論理体系の階層化や公理的集合論の成立につながった。
+
+\subsection{同数性と自然数}
+
+2つの集合の間に1対1対応が存在するとき，それらは同数であるという。フォン・ノイマン流の自然数は，それより小さい自然数全体の集合として次のように定義される。
+\[
+  0 =_{\mathrm{df}} \varnothing
+\]
+\[
+  1 =_{\mathrm{df}} \{0\}
+  \qquad
+  2 =_{\mathrm{df}} \{0,1\}
+  \qquad
+  3 =_{\mathrm{df}} \{0,1,2\}
+\]
+一般に，
+\[
+  n =_{\mathrm{df}} \{0,1,\ldots,n-1\}
+\]
+である。この定義では，例えば \(3\in 4\) であり，順序関係が集合の所属関係として表現される。
+
+\subsection{集合論のパラドックス}
+
+1903年にラッセルとツェルメロが指摘したラッセルのパラドックスでは，
+\[
+  W = \{x \mid x\notin x\}
+\]
+と置く。このとき，
+\[
+  W\in W
+  \quad\Longleftrightarrow\quad
+  W\notin W
+\]
+となり矛盾する。1904年のリシャールのパラドックスは，有限個の文字で定義できない実数を，そのような定義を列挙する文によって定義してしまう自己言及的な矛盾である。
+
+ラッセルとホワイトヘッドは1910年の \emph{Principia Mathematica I} において，述語関数を型ごとに階層化するタイプ理論を提示した。0型を個体，1型を個体についての述語，\(n\) 型を \((n-1)\) 型の対象についての述語とし，述語を自分自身へ適用することを禁止する。集合の階層を
+\[
+  W^0 =_{\mathrm{df}} \{x \mid x\in D\}
+\]
+\[
+  W^1 =_{\mathrm{df}}
+  \left\{
+    X \mathrel{}
+    \middle|
+    \mathrel{}
+    X\subseteq W^0
+  \right\}
+\]
+\[
+  W^n =_{\mathrm{df}}
+  \left\{
+    X \mathrel{}
+    \middle|
+    \mathrel{}
+    X\subseteq W^{n-1}
+  \right\}
+\]
+と構成すれば，\(X\in W^n\) に対して \(X\subseteq W^{n-1}\) であり，同一階層の \(X\in X\) は形成されない。
+
+一方，ツェルメロの公理的集合論は，集合の形成を公理によって制限する。すなわち，1階述語論理と公理的集合算を組み合わせ，2階述語関数を1階述語関数の集合として扱うことで，無制限な内包原理を避ける。
+
+\end{document}

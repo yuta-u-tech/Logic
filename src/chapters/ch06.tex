@@ -1,3 +1,5 @@
+% REVIEW-ID: logic.ch06.apriori-judgment-and-truth-tables
+% REVIEW-TITLE: アプリオリな判断と真理値表
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
@@ -5,6 +7,9 @@
 \section{アプリオリな判断と真理値表}
 
 前章では，命題をアプリオリな判断とアポステリオリな判断，また分析判断と総合判断に分けた。この2つの区別を組み合わせると，アプリオリな分析判断は，経験に依存せず，かつ語の意味や概念の包含関係だけで真である判断として理解できる。
+\begin{sidebox}[TBred]{CNFの見分け方}
+  CNF は「選言でできた節」を \(\land\) でつないだ形である。例えば \((p\lor\sim q)\land(r\lor s)\) は CNF である。外側が連言，内側が選言という二層構造に着目するとよい。単独のリテラルや単独の節も CNF とみなす。
+\end{sidebox}
 \[
   \triangleright\ \text{アプリオリな分析判断}
   \quad

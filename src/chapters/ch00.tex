@@ -1,0 +1,89 @@
+% REVIEW-ID: logic.ch00.notation-reference
+% REVIEW-TITLE: 本資料で用いる記号
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section*{本資料で用いる記号}
+\addcontentsline{toc}{section}{本資料で用いる記号}
+
+論理式は，記号を単に暗記するのではなく，「何を対象とし，何を主張しているか」を言葉に直して読むことが重要である。以下は本資料を通して用いる主な記号の一覧である。
+
+\subsection*{命題論理の記号}
+
+\begin{center}
+  \begin{tabular}{ccl}
+    \hline
+    記号 & 読み & 意味 \\
+    \hline
+    \(\sim p\) & \(p\) でない & 否定 \\
+    \(p\land q\) & \(p\) かつ \(q\) & 連言 \\
+    \(p\lor q\) & \(p\) または \(q\) & 選言（少なくとも一方が真） \\
+    \(p\supset q\) & \(p\) ならば \(q\) & 含意 \\
+    \(p\equiv q\) & \(p\) と \(q\) は同値 & 同じ真理値をもつ \\
+    \(\top,\bot\) & 真，偽 & 常に真の式，常に偽の式 \\
+    \hline
+  \end{tabular}
+\end{center}
+
+含意 \(p\supset q\) が偽になるのは，\(p\) が真で \(q\) が偽のときだけである。日常語の「ならば」と異なり，因果関係は要求しない。また，本資料の \(\lor\) は排他的選言ではないため，両方が真の場合も真である。
+
+\subsection*{意味論と構文論の記号}
+
+\begin{center}
+  \begin{tabular}{ccl}
+    \hline
+    記号 & 読み & 意味 \\
+    \hline
+    \(V_i[\alpha]\) & \(V_i\) による \(\alpha\) の値 & 付値 \(V_i\) の下での真理値 \\
+    \(\vDash\alpha\) & \(\alpha\) は妥当 & すべての解釈で \(\alpha\) が真 \\
+    \(\Gamma\vDash\alpha\) & \(\Gamma\) は \(\alpha\) を意味論的に導く & \(\Gamma\) を真にする解釈で \(\alpha\) も真 \\
+    \(\vdash\alpha\) & \(\alpha\) は証明可能 & 形式体系の規則で \(\alpha\) を導出できる \\
+    \(\Gamma\vdash\alpha\) & \(\Gamma\) から \(\alpha\) を導出 & 仮定集合 \(\Gamma\) からの構文論的導出 \\
+    \(=_{\mathrm{df}}\) & 定義によって等しい & 左辺を右辺で定義する \\
+    \hline
+  \end{tabular}
+\end{center}
+
+特に \(\vDash\) と \(\vdash\) を区別する必要がある。前者は「どの解釈でも真」という意味の側の概念，後者は「規則に従う有限な証明がある」という記号操作の側の概念である。健全性と完全性は，この2つが対応することを主張する。
+
+\subsection*{述語論理の記号}
+
+\begin{center}
+  \begin{tabular}{ccl}
+    \hline
+    記号 & 読み & 意味 \\
+    \hline
+    \(P(a)\) & \(a\) は \(P\) である & 個体 \(a\) に単項述語 \(P\) を適用 \\
+    \(R(a,b)\) & \(a\) と \(b\) は \(R\) の関係にある & 2項関係 \\
+    \(\forall x\,P(x)\) & すべての \(x\) で \(P(x)\) & 全称量化 \\
+    \(\exists x\,P(x)\) & ある \(x\) で \(P(x)\) & 存在量化 \\
+    \(M\) & 議論領域 & 変項が動く対象全体の集合 \\
+    \(V^{\mathcal M}\) & モデル \(\mathcal M\) の解釈 & 定項・述語に対象や外延を割り当てる \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\(\forall x\) や \(\exists x\) が作用する範囲をスコープという。量化子の順序は意味の一部であり，\(\forall x\exists y\,P(x,y)\) と \(\exists y\forall x\,P(x,y)\) は一般には同値でない。
+
+\subsection*{集合・関係・束の記号}
+
+\begin{center}
+  \begin{tabular}{ccl}
+    \hline
+    記号 & 読み & 意味 \\
+    \hline
+    \(x\in A\) & \(x\) は \(A\) の要素 & 所属関係 \\
+    \(A\subseteq B\) & \(A\) は \(B\) の部分集合 & \(A\) の全要素が \(B\) に属する \\
+    \(a\preceq b\) & \(a\) は \(b\) 以下 & 順序関係 \\
+    \(a\lor b\) & \(a\) と \(b\) の結び & 最小上界 \\
+    \(a\land b\) & \(a\) と \(b\) の交わり & 最大下界 \\
+    \(\bigvee A,\bigwedge A\) & \(A\) の上限，下限 & 集合全体に対する結びと交わり \\
+    \(0,1\) & 最小元，最大元 & 束またはブール代数の両端 \\
+    \(a'\) & \(a\) の補元 & \(a\land a'=0\)，\(a\lor a'=1\) を満たす元 \\
+    \hline
+  \end{tabular}
+\end{center}
+
+命題論理と束論では同じ \(\land,\lor\) を使うが，前者では真理関数，後者では最大下界・最小上界を表す。ブール代数によって両者が同じ法則を満たすことが，この記号の共通性の理由である。
+
+\end{document}

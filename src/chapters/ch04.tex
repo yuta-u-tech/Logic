@@ -1,3 +1,5 @@
+% REVIEW-ID: logic.ch04.excluded-middle-and-negation
+% REVIEW-TITLE: 排中律と否定
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
@@ -5,6 +7,10 @@
 \section{排中律と否定}
 
 前章では，命題 \(A\) とその否定 \(\sim A\) について，矛盾律と排中律を確認した。本章では，集合の図を用いて排中律をもう少し詳しく考える。古典論理では，ある命題 \(A\) について，\(A\) であるか，または \(A\) でないかのどちらかが必ず成り立つと考える。これが排中律である。
+
+\begin{sidebox}[TBred]{補元と否定の対応}
+  集合の補集合，ブール代数の補元，命題の否定は同じ代数法則を満たす。したがって \(A\lor\sim A=1\) は排中律，\(A\land\sim A=0\) は矛盾律を表す。ここで \(1\) は最大元または真，\(0\) は最小元または偽である。
+\end{sidebox}
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
