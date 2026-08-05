@@ -142,6 +142,25 @@
 
 \section{問3：CNF（和積標準形）への変形と恒真性判定}
 
+\begin{sidebox}[TBteal]{別解の方針：最大項・最小項による方法}
+CNFへの同値変形は，ド・モルガンと分配律だけを手作業で追うと見落としやすい。
+そこで，真理値表をすべて書き出し，\textbf{最大項（maxterm）}を使って機械的にCNFを組み立てる方法を，
+以下の(1)(2)それぞれの後に「別解」として示す。
+
+\begin{itemize}
+  \item 変項 \(x\) の値が\textbf{偽}の行では，リテラルとして \(x\) 自身（無否定）を採用する。
+  \item 変項 \(x\) の値が\textbf{真}の行では，リテラルとして \(\sim x\)（否定）を採用する。
+  \item ある行に対応する最大項は，その行の全変項のリテラルを \(\lor\) でつないだ節であり，
+    その行でのみ値が \(0\) になる。
+  \item 式全体が偽になるすべての行について最大項を作り，それらを \(\land\) でつなぐと，
+    元の式と同値なCNF（正準積和形）が得られる。
+  \item \textbf{偽になる行が1つもなければ，最大項は1つも作られず，式は恒真式である}
+    （空の連言は真とみなす）。
+\end{itemize}
+（同様に，真になる行から変項をそのまま/否定なしで組んだ\textbf{最小項（minterm）}を \(\lor\) でつなげば，
+同値なDNF（正準和積形）が得られる。）
+\end{sidebox}
+
 \begin{exercise}{問3}{q3}
 次のSPC開論理式について，①最も単純な和積標準形（CNF）の形に書き換え，②恒真式であるかどうかを判定せよ。
 \begin{pstep}{1}
@@ -183,6 +202,11 @@
 
 \textbf{答：恒真式である。}（CNFの各節が命題変項とその否定を同時に含むため，どの付値でも真になる。）
 
+\textbf{別解（最大項による方法）：} \(p,q,r,s\) の4変項なので真理値表は16行になるが，
+実際に全16行を計算すると\textbf{偽になる行が1行も存在しない}。したがって作られる最大項は0個であり，
+最大項の連言（CNF）は空，すなわち恒真式である。この方法では分配律の計算をまったく行わずに
+①CNF（空＝真）と②恒真式であることの両方が同時に確定する。
+
 \textbf{(2)} \((p\lor\sim q)\land\sim(r\land\sim s)\lor(\sim r\lor s)\land(t\supset s)\)
 
 まず各部分をCNFの言葉（\(\lor\) の集まり）に直す。
@@ -208,6 +232,48 @@
 \textbf{答：恒真式ではない。} 反例：\(r=\true,s=\false\) とすると，
 \(p,q,t\) の値によらず第1節 \(\sim r\lor s=\false\lor\false=\false\) となり，全体は偽になる
 （例えば \(p=\true,q=\false,r=\true,s=\false,t=\false\) のとき，元の式は偽）。
+
+\textbf{別解（最大項による方法）：} \(p,q,r,s,t\) の5変項なので真理値表は32行になるが，
+偽になる行だけを拾えばよい。実際に32行すべてを計算すると，偽になるのは次の9行であり，
+そのすべてで \(s=0\) である。
+
+\begin{center}
+\scriptsize
+\begin{tabular}{ccccc|l}
+\toprule
+\(p\) & \(q\) & \(r\) & \(s\) & \(t\) & 最大項 \\
+\midrule
+1&1&1&0&1 & \(\sim p\lor\sim q\lor\sim r\lor s\lor\sim t\) \\
+1&1&1&0&0 & \(\sim p\lor\sim q\lor\sim r\lor s\lor t\) \\
+1&0&1&0&1 & \(\sim p\lor q\lor\sim r\lor s\lor\sim t\) \\
+1&0&1&0&0 & \(\sim p\lor q\lor\sim r\lor s\lor t\) \\
+0&1&1&0&1 & \(p\lor\sim q\lor\sim r\lor s\lor\sim t\) \\
+0&1&1&0&0 & \(p\lor\sim q\lor\sim r\lor s\lor t\) \\
+0&1&0&0&1 & \(p\lor\sim q\lor r\lor s\lor\sim t\) \\
+0&0&1&0&1 & \(p\lor q\lor\sim r\lor s\lor\sim t\) \\
+0&0&1&0&0 & \(p\lor q\lor\sim r\lor s\lor t\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+この9個の最大項をすべて \(\land\) でつないだものが正準CNFだが，そのまま書くと長い。
+そこで表をよく見ると，最初の8行は\(r=1,s=0\)（\(p,q,t\)は8通りすべて）であり，
+残り1行だけが\(r=0,s=0,p=0,q=1,t=1\)である。
+
+カルノー図と同じ考え方で，\(p,q,t\)の8通りすべてを尽くしている「\(r=1,s=0\)」の8個の最大項は，
+\(p,q,t\)のリテラルを消去して1つの節 \((\sim r\lor s)\) にまとめられる
+（「偽になる条件が\(r=1\land s=0\)だけで，他の変項は何であってもよい」ことを1節で表せる）。
+残る1行（\(p=0,q=1,r=0,s=0,t=1\)）の最大項 \(p\lor\sim q\lor r\lor s\lor\sim t\) のうち，
+\(r\) を含まない部分 \(p\lor\sim q\lor s\lor\sim t\) が，実は \(r\) の値によらず偽になる条件
+（\(p=0,q=1,s=0,t=1\)）を表しているため，このリテラルから \(r\) を落として
+\(p\lor\sim q\lor s\lor\sim t\) としてよい（\(r\) を含む形と含まない形のどちらで書いても，
+上の8行と合わせて同じ偽集合を表す）。
+
+\textbf{最大項による方法で得られるCNF：} \((\sim r\lor s)\land(p\lor\sim q\lor s\lor\sim t)\)
+
+これは，本文中の分配律による解答 \((\sim r\lor s)\land(p\lor\sim q\lor\sim t\lor s)\) と
+（項の順序を除いて）完全に一致する。分配律を追いかける代わりに，真理値表を機械的に埋めて
+偽の行だけ拾えば，計算ミスなく同じCNFに到達できることが確認できる。
 \end{solution}
 
 \section{問4：2項真理関数とCNF}
@@ -334,9 +400,13 @@ CNFは
 
 \textbf{(5) PM-Th.4b：} \(\sim\sim p\supset p\)
 
-\(\sim\sim p\supset p\) を真理値表で確認すると，\(p=\true\)のとき\(\sim\sim p=\true\)で\(\true\supset\true=\true\)，
-\(p=\false\)のとき\(\sim\sim p=\false\)で\(\false\supset\false=\true\)となり，常に真である。
-すなわちSPC恒真式である。よって第8章の規則\(\mathrm{DR\text{-}E8}\)（SPC恒真式\(T\)の代入例は\(\mathrm{PM}\)で証明できる）
+第8章「健全性」で\(\mathrm{A1}\)を確認したのと同じ要領で，付値（付置関数）\(V_i\)を用いて確かめる。
+\(V_i[p]=1\)のときも\(V_i[p]=0\)のときも，
+\[
+  V_i[\sim\sim p\supset p]=1
+\]
+となる（\(V_i[p]=1\)なら\(V_i[\sim\sim p]=1\)で\(1\supset1=1\)。\(V_i[p]=0\)なら\(V_i[\sim\sim p]=0\)で\(0\supset0=1\)）。
+したがって\(\sim\sim p\supset p\)はSPC恒真式である。よって第8章の規則\(\mathrm{DR\text{-}E8}\)（SPC恒真式\(T\)の代入例は\(\mathrm{PM}\)で証明できる）
 により
 \[
   \mathrm{PM}\vdash\sim\sim p\supset p
@@ -344,11 +414,12 @@ CNFは
 
 \textbf{(6) PM-Th.5a：} \((p\supset q)\supset(\sim q\supset\sim p)\)
 
-真理値表：
+同様に付値\(V_i\)を用いる。\(V_i[p],V_i[q]\)の4通りの組合せすべてについて，
+\(V_i[(p\supset q)\supset(\sim q\supset\sim p)]\)を計算する。
 \begin{center}
 \begin{tabular}{cc|c|c|c}
 \toprule
-\(p\) & \(q\) & \(p\supset q\) & \(\sim q\supset\sim p\) & 全体 \\
+\(V_i[p]\) & \(V_i[q]\) & \(V_i[p\supset q]\) & \(V_i[\sim q\supset\sim p]\) & \(V_i[\text{全体}]\) \\
 \midrule
 1&1&1&1&1\\
 1&0&0&1&1\\
@@ -357,18 +428,18 @@ CNFは
 \bottomrule
 \end{tabular}
 \end{center}
-すべての行で真であるからSPC恒真式である。よって\(\mathrm{DR\text{-}E8}\)により
+すべての付値\(V_i\)について\(V_i[\text{全体}]=1\)であるからSPC恒真式である。よって\(\mathrm{DR\text{-}E8}\)により
 \[
   \mathrm{PM}\vdash(p\supset q)\supset(\sim q\supset\sim p)
 \]
 
 \textbf{(7) PM-Th.6a：} \(\sim(p\land q)\supset(\sim p\lor\sim q)\)（ド・モルガンの一方向）
 
-真理値表：
+同様に付値\(V_i\)を用いる。
 \begin{center}
 \begin{tabular}{cc|c|c|c}
 \toprule
-\(p\) & \(q\) & \(\sim(p\land q)\) & \(\sim p\lor\sim q\) & 全体 \\
+\(V_i[p]\) & \(V_i[q]\) & \(V_i[\sim(p\land q)]\) & \(V_i[\sim p\lor\sim q]\) & \(V_i[\text{全体}]\) \\
 \midrule
 1&1&0&0&1\\
 1&0&1&1&1\\
@@ -377,7 +448,7 @@ CNFは
 \bottomrule
 \end{tabular}
 \end{center}
-すべての行で真であるからSPC恒真式である。よって\(\mathrm{DR\text{-}E8}\)により
+すべての付値\(V_i\)について\(V_i[\text{全体}]=1\)であるからSPC恒真式である。よって\(\mathrm{DR\text{-}E8}\)により
 \[
   \mathrm{PM}\vdash\sim(p\land q)\supset(\sim p\lor\sim q)
 \]
@@ -419,6 +490,229 @@ CNFは
 
 以上より，どちらの場合分けにおいても式全体は \(I\) のもとで真である。\(I\) は任意の解釈であったから，
 この式はすべての解釈のもとで真，すなわちSLPC恒真式型である。\hfill\(\blacksquare\)
+\end{solution}
+
+\section*{類似問題（類題）}
+
+問2・問3・問6は，式の中身（変項の組合せ・否定の位置）を変えても同じ形式で出題できる。
+以下にそれぞれの類題を1セットずつ用意した。
+
+\subsection*{類題2：真理値表による判定}
+
+\begin{exercise}{類題2}{t2}
+次のSPC開論理式について，①真理値表を書き，②SPC恒真式，SPC恒偽式，SPC偶然式のいずれであるかを答えよ。
+\begin{pstep}{1}
+  \(\sim(\sim p\land\sim q)\lor\sim(\sim p\supset\sim q)\)
+\end{pstep}
+\begin{pstep}{2}
+  \((p\supset\sim q)\supset\bigl\{(\sim p\lor q)\supset p\bigr\}\)
+\end{pstep}
+\begin{pstep}{3}
+  \(\sim(p\supset q\lor\sim r)\lor\bigl((\sim q\land r)\supset\sim p\bigr)\)
+\end{pstep}
+\end{exercise}
+
+\begin{solution}{類題2}{sol-t2}
+\textbf{(1)} \(\sim(\sim p\land\sim q)\lor\sim(\sim p\supset\sim q)\)
+
+\begin{center}
+\begin{tabular}{cc|cc|c}
+\toprule
+\(p\) & \(q\) & \(\sim(\sim p\land\sim q)\) & \(\sim(\sim p\supset\sim q)\) & 全体 \\
+\midrule
+1 & 1 & 1 & 0 & 1 \\
+1 & 0 & 1 & 0 & 1 \\
+0 & 1 & 1 & 0 & 1 \\
+0 & 0 & 0 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+真理値は \((p,q)=(0,0)\) のときのみ偽で，他は真。\textbf{答：SPC偶然式}
+（最大項による別解：偽になる行は\((p,q)=(0,0)\)のみなので，最も単純なCNFは\(p\lor q\)。）
+
+\textbf{(2)} \((p\supset\sim q)\supset\bigl\{(\sim p\lor q)\supset p\bigr\}\)
+
+\begin{center}
+\begin{tabular}{cc|c|c|c}
+\toprule
+\(p\) & \(q\) & \(p\supset\sim q\) & \((\sim p\lor q)\supset p\) & 全体 \\
+\midrule
+1 & 1 & 0 & 1 & 1 \\
+1 & 0 & 1 & 1 & 1 \\
+0 & 1 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+真理値は \(p=0\) のとき偽，\(p=1\) のとき真。\textbf{答：SPC偶然式}
+（最大項による別解：偽になる行は\(p=0\)の2行なので，最も単純なCNFは\(p\)そのもの。）
+
+\textbf{(3)} \(\sim(p\supset q\lor\sim r)\lor\bigl((\sim q\land r)\supset\sim p\bigr)\)
+
+\begin{center}
+\begin{tabular}{ccc|c|c|c}
+\toprule
+\(p\) & \(q\) & \(r\) & \(\sim(p\supset q\lor\sim r)\) & \((\sim q\land r)\supset\sim p\) & 全体 \\
+\midrule
+1&1&1&0&1&1\\
+1&1&0&0&1&1\\
+1&0&1&1&0&1\\
+1&0&0&0&1&1\\
+0&1&1&0&1&1\\
+0&1&0&0&1&1\\
+0&0&1&0&1&1\\
+0&0&0&0&1&1\\
+\bottomrule
+\end{tabular}
+\end{center}
+すべての行で真である。\textbf{答：SPC恒真式}
+（元の問2(3)と同じ形だが，\(\sim q\land\sim r\)を\(\sim q\land r\)に変えるだけで恒真式になる例。
+このように，見た目の形だけでは分類は決まらず，必ず真理値表で確認する必要がある。）
+\end{solution}
+
+\subsection*{類題3：CNFへの変形と恒真性判定}
+
+\begin{exercise}{類題3}{t3}
+次のSPC開論理式について，①最も単純な和積標準形（CNF）の形に書き換え，②恒真式であるかどうかを判定せよ。
+\begin{pstep}{1}
+  \((p\land\sim q\supset r\lor\sim s)\lor\sim(\sim p\lor q)\)
+\end{pstep}
+\begin{pstep}{2}
+  \((\sim p\lor q)\land\sim(\sim r\land s)\lor(r\lor\sim s)\land(\sim t\supset\sim s)\)
+\end{pstep}
+\end{exercise}
+
+\begin{solution}{類題3}{sol-t3}
+\textbf{(1)} \((p\land\sim q\supset r\lor\sim s)\lor\sim(\sim p\lor q)\)
+
+\(\supset\) を展開し，ド・モルガンを適用する：
+\[
+  p\land\sim q\supset r\lor\sim s
+  \;\equiv\;
+  \sim(p\land\sim q)\lor(r\lor\sim s)
+  \;\equiv\;
+  (\sim p\lor q)\lor r\lor\sim s
+\]
+\[
+  \sim(\sim p\lor q)\equiv p\land\sim q
+\]
+よって全体は \((\sim p\lor q\lor r\lor\sim s)\lor(p\land\sim q)\)。分配律を適用すると，
+\[
+  (\sim p\lor q\lor r\lor\sim s\lor p)\land(\sim p\lor q\lor r\lor\sim s\lor\sim q)
+\]
+第1節は \(p,\sim p\) を，第2節は \(q,\sim q\) を同時に含むため，どちらも恒真。
+
+\textbf{最も単純なCNF：} \((p\lor\sim p)\land(q\lor\sim q)\)　\textbf{答：恒真式である。}
+
+\textbf{別解（最大項による方法）：} \(p,q,r,s\) の16行をすべて計算しても偽になる行は存在しない。
+偽の行が0行 ⇒ 最大項が0個 ⇒ CNFは空（真）⇒ 恒真式。（問3(1)とまったく同じ構造の変形であることに対応している。）
+
+\textbf{(2)} \((\sim p\lor q)\land\sim(\sim r\land s)\lor(r\lor\sim s)\land(\sim t\supset\sim s)\)
+
+各部分を展開する：
+\[
+  \sim(\sim r\land s)\equiv r\lor\sim s
+  \qquad
+  \sim t\supset\sim s\equiv t\lor\sim s
+\]
+代入すると，
+\[
+  (\sim p\lor q)\land(r\lor\sim s)\;\lor\;(r\lor\sim s)\land(t\lor\sim s)
+\]
+\((r\lor\sim s)\) が共通因子なので，分配律により
+\[
+  (r\lor\sim s)\land\bigl(\sim p\lor q\lor t\lor\sim s\bigr)
+\]
+
+\textbf{最も単純なCNF：} \((r\lor\sim s)\land(\sim p\lor q\lor t\lor\sim s)\)
+
+\textbf{答：恒真式ではない。} 反例：\(r=\false,s=\true\) とすると，\(p,q,t\) の値によらず
+第1節 \(r\lor\sim s=\false\lor\false=\false\) となり全体は偽になる。
+
+\textbf{別解（最大項による方法）：} \(p,q,r,s,t\) の32行のうち，偽になるのは次の9行で，
+すべて \(s=1\) である。
+
+\begin{center}
+\scriptsize
+\begin{tabular}{ccccc}
+\toprule
+\(p\) & \(q\) & \(r\) & \(s\) & \(t\) \\
+\midrule
+1&1&0&1&1\\
+1&1&0&1&0\\
+1&0&1&1&0\\
+1&0&0&1&1\\
+1&0&0&1&0\\
+0&1&0&1&1\\
+0&1&0&1&0\\
+0&0&0&1&1\\
+0&0&0&1&0\\
+\bottomrule
+\end{tabular}
+\end{center}
+このうち8行は \(r=0,s=1\)（\(p,q,t\)は8通りすべて）であり，\(p,q,t\)のリテラルを消去して
+1節 \((r\lor\sim s)\) にまとめられる。残る1行（\(p=1,q=0,r=1,s=1,t=0\)）は \(r\) の値によらず
+\(p=1,q=0,s=1,t=0\)で偽になる条件を表しており，\(r\)を含まない節
+\(\sim p\lor q\lor t\lor\sim s\) として吸収できる。
+
+\textbf{最大項による方法で得られるCNF：} \((r\lor\sim s)\land(\sim p\lor q\lor t\lor\sim s)\)
+
+本文中の分配律による解答と完全に一致する。
+\end{solution}
+
+\subsection*{類題6：SLPC恒真式型の証明}
+
+\begin{exercise}{類題6}{t6}
+次の各SLPC論理式型がSLPC恒真式型であることを示せ。ただし，\(\alpha(x),\beta(x)\) は
+自由変項 \(x\) を含む任意のSLPC論理式である。
+\begin{pstep}{1}
+  \(\forall x\bigl[\alpha(x)\land\beta(x)\bigr]\supset\bigl(\forall x[\alpha(x)]\land\forall x[\beta(x)]\bigr)\)
+\end{pstep}
+\begin{pstep}{2}
+  \(\bigl(\exists x[\alpha(x)]\lor\exists x[\beta(x)]\bigr)\supset\exists x\bigl[\alpha(x)\lor\beta(x)\bigr]\)
+\end{pstep}
+\end{exercise}
+
+\begin{solution}{類題6}{sol-t6}
+問6と同じく，任意の解釈 \(I\)（個体領域 \(D\)）のもとで真になることを示す。
+
+\textbf{(1)} \(\forall x[\alpha(x)\land\beta(x)]\supset(\forall x[\alpha(x)]\land\forall x[\beta(x)])\)
+
+前件 \(\forall x[\alpha(x)\land\beta(x)]\) が \(I\) のもとで偽なら，全体は前件が偽で自動的に真。
+
+前件が真であると仮定する。\(D\) の任意の元 \(d\) をとると，\(\alpha(d)\land\beta(d)\) が真であるから，
+連言の意味論より \(\alpha(d)\) も \(\beta(d)\) も真である。\(d\) は任意であったから，
+\(\forall x[\alpha(x)]\) と \(\forall x[\beta(x)]\) がともに \(I\) のもとで真であり，
+その連言 \(\forall x[\alpha(x)]\land\forall x[\beta(x)]\) も真である。
+
+以上より，前件の真偽によらず全体は \(I\) のもとで真であり，\(I\) は任意であったから
+SLPC恒真式型である。\hfill\(\blacksquare\)
+
+\textbf{(2)} \((\exists x[\alpha(x)]\lor\exists x[\beta(x)])\supset\exists x[\alpha(x)\lor\beta(x)]\)
+
+前件 \(\exists x[\alpha(x)]\lor\exists x[\beta(x)]\) が \(I\) のもとで偽なら，全体は前件が偽で自動的に真。
+
+前件が真であると仮定する。選言の意味論より，\(\exists x[\alpha(x)]\) が真であるか，
+\(\exists x[\beta(x)]\) が真であるかの少なくとも一方が成り立つ。
+
+\begin{itemize}
+  \item \(\exists x[\alpha(x)]\) が真の場合：ある \(d\in D\) について \(\alpha(d)\) が真である。
+    このとき \(\alpha(d)\lor\beta(d)\) も真であるから，その \(d\) の存在により
+    \(\exists x[\alpha(x)\lor\beta(x)]\) は真である。
+  \item \(\exists x[\beta(x)]\) が真の場合も同様に，ある \(d\) について \(\beta(d)\) が真であり，
+    \(\alpha(d)\lor\beta(d)\) が真となるので \(\exists x[\alpha(x)\lor\beta(x)]\) は真である。
+\end{itemize}
+どちらの場合も後件が真になるから，全体は \(I\) のもとで真である。\(I\) は任意であったから
+SLPC恒真式型である。\hfill\(\blacksquare\)
+
+\begin{sidebox}[TBred]{注意：逆や類似の変形が成り立つとは限らない}
+問6・類題6(1)(2)はいずれも「\(\land\)/\(\exists\lor\)は分配できる」という一方向の恒真式型である。
+一方，\(\exists x[\alpha(x)]\land\exists x[\beta(x)]\supset\exists x[\alpha(x)\land\beta(x)]\)や
+\(\forall x[\alpha(x)\lor\beta(x)]\supset\forall x[\alpha(x)]\lor\forall x[\beta(x)]\)は
+一般には成り立たない（前者は「\(\alpha\)を満たす個体」と「\(\beta\)を満たす個体」が別人でもよいため，
+後者は「\(\alpha\)または\(\beta\)を全員が満たす」としても片方だけを全員が満たすとは限らないため）。
+出題される式が実際に恒真式型かどうかは，形が似ていても必ず個別に確認すること。
+\end{sidebox}
 \end{solution}
 
 \end{document}
