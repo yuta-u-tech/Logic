@@ -1,0 +1,424 @@
+% 論理学 期末テスト対策プリント
+% 過去問（期末テスト問題, 問1〜問6）の文字起こしと解答解説
+\documentclass[autodetect-engine,dvi=dvipdfmx,ja=standard]{bxjsarticle}
+
+\makeatletter
+\providecommand*{\input@path}{}
+\g@addto@macro\input@path{{./}{../includes/}}
+\makeatother
+
+\input{protocol.tex}
+\input{preamble.tex}
+
+\title{論理学 期末テスト対策プリント}
+\author{論理学 過去問}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+本プリントは，論理学の期末テスト過去問（問1〜問6）を文字起こしし，各問に解答解説を付したものである。
+出題範囲は，SPC（命題論理）の真理値計算，真理値表による判定，CNF（和積標準形）への変形，
+2項真理関数のCNF表現，PM証明体系による証明，および SLPC（述語論理）の恒真式型の証明である。
+
+\section{問1：SPC閉論理式の真理値計算}
+
+\begin{exercise}{問1}{q1}
+次のSPC閉論理式において，\(A,B,C,\ldots\) は真なる真理値をもつ命題定項，\(L,M,N,\ldots\) は
+偽なる真理値をもつ命題定項である。式全体の真理値を計算して求めよ。
+\begin{pstep}{1}
+  \((\sim A\supset B)\land\sim L\supset(\sim M\supset C\lor N)\)
+\end{pstep}
+\begin{pstep}{2}
+  \(\sim A\land L\lor M\supset N\equiv N\land\sim B\supset\sim C\)
+\end{pstep}
+\end{exercise}
+
+\begin{solution}{問1}{sol-q1}
+命題定項の真理値は \(A=B=C=\true\)（真），\(L=M=N=\false\)（偽）である。
+
+\textbf{(1)} \((\sim A\supset B)\land\sim L\supset(\sim M\supset C\lor N)\)
+
+演算子の結合強度（\(\sim>\land>\lor>\supset>\equiv\)）にしたがい，
+\[
+  \bigl[(\sim A\supset B)\land\sim L\bigr]\supset\bigl[\sim M\supset(C\lor N)\bigr]
+\]
+と読む。
+\begin{itemize}
+  \item \(\sim A=\false\) であるから，\(\sim A\supset B\) は前件が偽なので\(\true\)。
+  \item \(\sim L=\true\)（\(L=\false\) なので）。よって左辺全体は \(\true\land\true=\true\)。
+  \item \(\sim M=\true\)（\(M=\false\) なので），\(C\lor N=\true\lor\false=\true\)。よって \(\sim M\supset(C\lor N)=\true\supset\true=\true\)。
+\end{itemize}
+以上より，全体は \(\true\supset\true=\true\)。\textbf{答：真}
+
+\textbf{(2)} \(\sim A\land L\lor M\supset N\equiv N\land\sim B\supset\sim C\)
+
+\(\equiv\) の結合強度が最も弱いため，
+\[
+  \Bigl[\bigl((\sim A\land L)\lor M\bigr)\supset N\Bigr]
+  \equiv
+  \Bigl[(N\land\sim B)\supset\sim C\Bigr]
+\]
+と読む。
+\begin{itemize}
+  \item 左辺：\(\sim A=\false\)，\(\sim A\land L=\false\land\false=\false\)。\(\false\lor M=\false\lor\false=\false\)。
+    \(\false\supset N=\true\)（前件が偽）。よって左辺 \(=\true\)。
+  \item 右辺：\(N=\false\)，\(\sim B=\false\)。\(N\land\sim B=\false\land\false=\false\)。
+    \(\false\supset\sim C=\true\)（前件が偽）。よって右辺 \(=\true\)。
+\end{itemize}
+左辺 \(\equiv\) 右辺 \(=\true\equiv\true=\true\)。\textbf{答：真}
+\end{solution}
+
+\section{問2：真理値表による判定}
+
+\begin{exercise}{問2}{q2}
+次のSPC開論理式について，①真理値表を書き，②SPC恒真式，SPC恒偽式，SPC偶然式のいずれであるかを答えよ。
+\begin{pstep}{1}
+  \(\sim(\sim p\land q)\lor\sim(\sim p\supset q)\)
+\end{pstep}
+\begin{pstep}{2}
+  \((\sim p\supset q)\supset\bigl\{(\sim q\lor p)\supset\sim p\bigr\}\)
+\end{pstep}
+\begin{pstep}{3}
+  \(\sim(p\supset q\lor\sim r)\lor(\sim q\land\sim r\supset\sim p)\)
+\end{pstep}
+\end{exercise}
+
+\begin{solution}{問2}{sol-q2}
+\textbf{(1)} \(\sim(\sim p\land q)\lor\sim(\sim p\supset q)\)
+
+\begin{center}
+\begin{tabular}{cc|cc|c}
+\toprule
+\(p\) & \(q\) & \(\sim(\sim p\land q)\) & \(\sim(\sim p\supset q)\) & 全体 \\
+\midrule
+1 & 1 & 1 & 0 & 1 \\
+1 & 0 & 1 & 0 & 1 \\
+0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+真理値は \((p,q)=(0,1)\) のときのみ偽で，他は真。\textbf{答：SPC偶然式}
+（\(p=0,q=1\) のとき：\(\sim p\land q=1\land1=1\) なので \(\sim(\cdots)=0\)。
+\(\sim p\supset q=1\supset1=1\) なので \(\sim(\cdots)=0\)。\(0\lor0=0\)。）
+
+\textbf{(2)} \((\sim p\supset q)\supset\bigl\{(\sim q\lor p)\supset\sim p\bigr\}\)
+
+\begin{center}
+\begin{tabular}{cc|c|c|c}
+\toprule
+\(p\) & \(q\) & \(\sim p\supset q\) & \((\sim q\lor p)\supset\sim p\) & 全体 \\
+\midrule
+1 & 1 & 1 & 0 & 0 \\
+1 & 0 & 1 & 0 & 0 \\
+0 & 1 & 1 & 1 & 1 \\
+0 & 0 & 0 & 1 & 1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+真理値は \(p=1\) で偽，\(p=0\) で真。\textbf{答：SPC偶然式}
+
+\textbf{(3)} \(\sim(p\supset q\lor\sim r)\lor(\sim q\land\sim r\supset\sim p)\)
+
+\begin{center}
+\begin{tabular}{ccc|c|c|c}
+\toprule
+\(p\) & \(q\) & \(r\) & \(\sim(p\supset q\lor\sim r)\) & \(\sim q\land\sim r\supset\sim p\) & 全体 \\
+\midrule
+1&1&1&0&1&1\\
+1&1&0&0&1&1\\
+1&0&1&1&1&1\\
+1&0&0&0&0&0\\
+0&1&1&0&1&1\\
+0&1&0&0&1&1\\
+0&0&1&0&1&1\\
+0&0&0&0&1&1\\
+\bottomrule
+\end{tabular}
+\end{center}
+真理値は \((p,q,r)=(1,0,0)\) のときのみ偽で，他は真。\textbf{答：SPC偶然式}
+\end{solution}
+
+\section{問3：CNF（和積標準形）への変形と恒真性判定}
+
+\begin{exercise}{問3}{q3}
+次のSPC開論理式について，①最も単純な和積標準形（CNF）の形に書き換え，②恒真式であるかどうかを判定せよ。
+\begin{pstep}{1}
+  \((\sim p\land q\supset\sim r\lor s)\lor\sim(p\lor\sim q)\)
+\end{pstep}
+\begin{pstep}{2}
+  \((p\lor\sim q)\land\sim(r\land\sim s)\lor(\sim r\lor s)\land(t\supset s)\)
+\end{pstep}
+\end{exercise}
+
+\begin{solution}{問3}{sol-q3}
+\textbf{(1)} \((\sim p\land q\supset\sim r\lor s)\lor\sim(p\lor\sim q)\)
+
+\(\supset\) を \(\lor\) に展開する（\(\alpha\supset\beta\equiv\sim\alpha\lor\beta\)）：
+\[
+  \sim p\land q\supset\sim r\lor s
+  \;\equiv\;
+  \sim(\sim p\land q)\lor(\sim r\lor s)
+  \;\equiv\;
+  (p\lor\sim q)\lor\sim r\lor s
+\]
+（ド・モルガンにより \(\sim(\sim p\land q)\equiv p\lor\sim q\)）。
+
+また \(\sim(p\lor\sim q)\equiv\sim p\land q\)（ド・モルガン）。
+
+よって全体は
+\[
+  (p\lor\sim q\lor\sim r\lor s)\lor(\sim p\land q)
+\]
+これに分配律（\(A\lor(B\land C)\equiv(A\lor B)\land(A\lor C)\)）を適用する。ここで
+\(A=p\lor\sim q\lor\sim r\lor s\)，\(B=\sim p\)，\(C=q\) とおくと，
+\[
+  (p\lor\sim q\lor\sim r\lor s\lor\sim p)\land(p\lor\sim q\lor\sim r\lor s\lor q)
+\]
+第1節は \(p\) と \(\sim p\) を同時に含み，第2節は \(q\) と \(\sim q\) を同時に含む。
+どちらの節も命題変項とその否定を同時に含むため，各節はそれ自体で恒真である。
+
+\textbf{最も単純なCNF：} \((p\lor\sim p)\land(q\lor\sim q)\)（各節が \(p,\sim p\) および \(q,\sim q\) を含む節に還元される）。
+
+\textbf{答：恒真式である。}（CNFの各節が命題変項とその否定を同時に含むため，どの付値でも真になる。）
+
+\textbf{(2)} \((p\lor\sim q)\land\sim(r\land\sim s)\lor(\sim r\lor s)\land(t\supset s)\)
+
+まず各部分をCNFの言葉（\(\lor\) の集まり）に直す。
+\[
+  \sim(r\land\sim s)\equiv\sim r\lor s
+  \qquad\text{（ド・モルガン）}
+\]
+\[
+  t\supset s\equiv\sim t\lor s
+\]
+これらを代入すると，
+\[
+  (p\lor\sim q)\land(\sim r\lor s)\;\lor\;(\sim r\lor s)\land(\sim t\lor s)
+\]
+\((\sim r\lor s)\) が両方の連言に共通であるから，分配律 \(B\land A\lor B\land C\equiv B\land(A\lor C)\)
+（\(B=\sim r\lor s\)，\(A=p\lor\sim q\)，\(C=\sim t\lor s\)）により，
+\[
+  (\sim r\lor s)\land\bigl(p\lor\sim q\lor\sim t\lor s\bigr)
+\]
+
+\textbf{最も単純なCNF：} \((\sim r\lor s)\land(p\lor\sim q\lor\sim t\lor s)\)
+
+\textbf{答：恒真式ではない。} 反例：\(r=\true,s=\false\) とすると，
+\(p,q,t\) の値によらず第1節 \(\sim r\lor s=\false\lor\false=\false\) となり，全体は偽になる
+（例えば \(p=\true,q=\false,r=\true,s=\false,t=\false\) のとき，元の式は偽）。
+\end{solution}
+
+\section{問4：2項真理関数とCNF}
+
+\begin{exercise}{問4}{q4}
+次の各2項真理関数と同値の最も単純な和積標準形（CNF）を答えよ。
+\begin{center}
+\begin{tabular}{c|cccc}
+\toprule
+ & \(f_2\) & \(f_6\) & \(f_{11}\) & \(f_{13}\) \\
+\midrule
+\(V_3\)（\(p{=}1,q{=}1\)） & 0 & 0 & 1 & 1 \\
+\(V_2\)（\(p{=}1,q{=}0\)） & 0 & 1 & 0 & 1 \\
+\(V_1\)（\(p{=}0,q{=}1\)） & 1 & 1 & 1 & 0 \\
+\(V_0\)（\(p{=}0,q{=}0\)） & 0 & 0 & 1 & 1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{exercise}
+
+\begin{solution}{問4}{sol-q4}
+2項真理関数の添字 \(f_{b_1b_2b_3b_4}\) は，入力 \((V_3,V_2,V_1,V_0)=\bigl((1,1),(1,0),(0,1),(0,0)\bigr)\)
+に対する出力を順に並べたビット列である（第7章の記法にしたがう）。
+
+\textbf{\(f_2=f_{0010}\)：} \(p=0,q=1\) のときのみ真。これは \(\sim p\land q\) そのものであり，
+最も単純なCNFは
+\[
+  f_2 \;\equiv\; \sim p\land q
+\]
+（各連言肢が単一リテラルの節であるため，これがCNF表示）。
+
+\textbf{\(f_6=f_{0110}\)：} \((p,q)=(1,0),(0,1)\) のときのみ真。これは排他的論言 \(p\oplus q\) に一致する。
+CNFは
+\[
+  f_6 \;\equiv\; (p\lor q)\land(\sim p\lor\sim q)
+\]
+（真理値表で確認：\((1,1)\to0,(1,0)\to1,(0,1)\to1,(0,0)\to0\) と一致する）。
+
+\textbf{\(f_{11}=f_{1011}\)：} \((p,q)=(1,0)\) のときのみ偽。したがって
+\[
+  f_{11}\;\equiv\;\sim(p\land\sim q)\;\equiv\;\sim p\lor q
+\]
+
+\textbf{\(f_{13}=f_{1101}\)：} \((p,q)=(0,1)\) のときのみ偽。したがって
+\[
+  f_{13}\;\equiv\;\sim(\sim p\land q)\;\equiv\;p\lor\sim q
+\]
+\end{solution}
+
+\section{問5：PM証明}
+
+\begin{exercise}{問5}{q5}
+次のSPC開論理式について，PM証明を与えよ。
+\begin{pstep}{1}
+  PM-Th.1 \(\quad(q\supset r)\supset\{(p\supset q)\supset(p\supset r)\}\)
+\end{pstep}
+\begin{pstep}{2}
+  PM-Th.2 \(\quad p\supset p\)
+\end{pstep}
+\begin{pstep}{3}
+  PM-Th.3 \(\quad p\lor\sim p\)
+\end{pstep}
+\begin{pstep}{4}
+  PM-Th.4a \(\quad p\supset\sim\sim p\)
+\end{pstep}
+\begin{pstep}{5}
+  PM-Th.4b \(\quad\sim\sim p\supset p\)
+\end{pstep}
+\begin{pstep}{6}
+  PM-Th.5a \(\quad(p\supset q)\supset(\sim q\supset\sim p)\)
+\end{pstep}
+\begin{pstep}{7}
+  PM-Th.6a \(\quad\sim(p\land q)\supset(\sim p\lor\sim q)\)
+\end{pstep}
+\end{exercise}
+
+\begin{solution}{問5}{sol-q5}
+公理は第8章の \(\mathrm{A1}\)：\(p\lor p\supset p\)，\(\mathrm{A2}\)：\(p\supset p\lor q\)，
+\(\mathrm{A3}\)：\(p\lor q\supset q\lor p\)，\(\mathrm{A4}\)：\((p\supset q)\supset\{(r\lor p)\supset(r\lor q)\}\)，
+規則は一様代入 \(\mathrm{PDR1}\)，分離規則（modus ponens）\(\mathrm{PDR2}\) である。
+また \(\supset\) は \(\alpha\supset\beta\;\mathrel{=_{\mathrm{df}}}\;\sim\alpha\lor\beta\) と定義される。
+
+\textbf{(1) PM-Th.1：} \((q\supset r)\supset\{(p\supset q)\supset(p\supset r)\}\)
+
+これは公理\(\mathrm{A4}\)に一様代入を施し，\(\supset\)の定義で読み替えるだけで得られる。
+\begin{align*}
+  1.\quad & (p\supset q)\supset\{(r\lor p)\supset(r\lor q)\} && [\mathrm{A4}]\\
+  2.\quad & (q\supset r)\supset\{(\sim p\lor q)\supset(\sim p\lor r)\}
+    && [1,\mathrm{PDR1}: p\mapsto q,\ q\mapsto r,\ r\mapsto\sim p]\\
+  3.\quad & (q\supset r)\supset\{(p\supset q)\supset(p\supset r)\}
+    && [2,\ \supset\text{の定義：}\sim p\lor q=_{\mathrm{df}}p\supset q,\ \sim p\lor r=_{\mathrm{df}}p\supset r]
+\end{align*}
+
+\textbf{(2) PM-Th.2：} \(p\supset p\)（第8章に与えられている証明を再掲する）
+\begin{align*}
+  1.\quad & (q\supset r)\supset\{(p\supset q)\supset(p\supset r)\} && [\mathrm{PM\text{-}Th.1}]\\
+  2.\quad & (p\lor q\supset p)\supset\{(p\supset p\lor q)\supset(p\supset p)\}
+    && [1,\mathrm{PDR1}]\\
+  3.\quad & p\lor p\supset p && [\mathrm{A1}]\\
+  4.\quad & (p\supset p\lor p)\supset(p\supset p) && [2,3,\mathrm{PDR2}]\\
+  5.\quad & p\supset p\lor p && [\mathrm{A2}]\\
+  6.\quad & p\supset p && [4,5,\mathrm{PDR2}]
+\end{align*}
+
+\textbf{(3) PM-Th.3：} \(p\lor\sim p\)
+
+\(p\supset p\) を \(\supset\)の定義で読み替えると \(\sim p\lor p\) である。これに交換律\(\mathrm{A3}\)を適用する。
+\begin{align*}
+  1.\quad & p\supset p\quad(\text{定義により }\sim p\lor p) && [\mathrm{PM\text{-}Th.2}]\\
+  2.\quad & p\lor q\supset q\lor p && [\mathrm{A3}]\\
+  3.\quad & \sim p\lor p\supset p\lor\sim p && [2,\mathrm{PDR1}: p\mapsto\sim p,\ q\mapsto p]\\
+  4.\quad & p\lor\sim p && [1,3,\mathrm{PDR2}]
+\end{align*}
+
+\textbf{(4) PM-Th.4a：} \(p\supset\sim\sim p\)
+
+排中律 \(\mathrm{PM\text{-}Th.3}\) に \(p\mapsto\sim p\) の一様代入を施す。
+\begin{align*}
+  1.\quad & p\lor\sim p && [\mathrm{PM\text{-}Th.3}]\\
+  2.\quad & \sim p\lor\sim\sim p && [1,\mathrm{PDR1}: p\mapsto\sim p]\\
+  3.\quad & p\supset\sim\sim p
+    && [2,\ \supset\text{の定義：}\sim p\lor\sim\sim p=_{\mathrm{df}}p\supset\sim\sim p]
+\end{align*}
+
+\textbf{(5) PM-Th.4b：} \(\sim\sim p\supset p\)
+
+\(\sim\sim p\supset p\) を真理値表で確認すると，\(p=\true\)のとき\(\sim\sim p=\true\)で\(\true\supset\true=\true\)，
+\(p=\false\)のとき\(\sim\sim p=\false\)で\(\false\supset\false=\true\)となり，常に真である。
+すなわちSPC恒真式である。よって第8章の規則\(\mathrm{DR\text{-}E8}\)（SPC恒真式\(T\)の代入例は\(\mathrm{PM}\)で証明できる）
+により
+\[
+  \mathrm{PM}\vdash\sim\sim p\supset p
+\]
+
+\textbf{(6) PM-Th.5a：} \((p\supset q)\supset(\sim q\supset\sim p)\)
+
+真理値表：
+\begin{center}
+\begin{tabular}{cc|c|c|c}
+\toprule
+\(p\) & \(q\) & \(p\supset q\) & \(\sim q\supset\sim p\) & 全体 \\
+\midrule
+1&1&1&1&1\\
+1&0&0&1&1\\
+0&1&1&1&1\\
+0&0&1&1&1\\
+\bottomrule
+\end{tabular}
+\end{center}
+すべての行で真であるからSPC恒真式である。よって\(\mathrm{DR\text{-}E8}\)により
+\[
+  \mathrm{PM}\vdash(p\supset q)\supset(\sim q\supset\sim p)
+\]
+
+\textbf{(7) PM-Th.6a：} \(\sim(p\land q)\supset(\sim p\lor\sim q)\)（ド・モルガンの一方向）
+
+真理値表：
+\begin{center}
+\begin{tabular}{cc|c|c|c}
+\toprule
+\(p\) & \(q\) & \(\sim(p\land q)\) & \(\sim p\lor\sim q\) & 全体 \\
+\midrule
+1&1&0&0&1\\
+1&0&1&1&1\\
+0&1&1&1&1\\
+0&0&1&1&1\\
+\bottomrule
+\end{tabular}
+\end{center}
+すべての行で真であるからSPC恒真式である。よって\(\mathrm{DR\text{-}E8}\)により
+\[
+  \mathrm{PM}\vdash\sim(p\land q)\supset(\sim p\lor\sim q)
+\]
+\end{solution}
+
+\section{問6：SLPC恒真式型の証明}
+
+\begin{exercise}{問6}{q6}
+次のSLPC論理式型がSLPC恒真式型であることを示せ。ただし，\(\alpha(x)\) は自由変項 \(x\) を含む任意のSLPC論理式である。
+\[
+  \forall x\bigl[\alpha(x)\supset\beta(x)\bigr]
+  \;\supset\;
+  \bigl(\forall x[\alpha(x)]\supset\forall x[\beta(x)]\bigr)
+\]
+\end{exercise}
+
+\begin{solution}{問6}{sol-q6}
+これは述語論理の分配公理型（「配分の原理」）であり，任意の解釈（領域と付値）のもとで真になることを示せばよい。
+
+任意の解釈 \(I\)（個体領域 \(D\)）を1つとる。全体の式が \(\supset\) の形をしているので，
+前件 \(\forall x[\alpha(x)\supset\beta(x)]\) が \(I\) のもとで偽であれば，
+式全体は前件が偽であることにより自動的に真である。
+
+そこで，前件が真であると仮定し，後件 \(\forall x[\alpha(x)]\supset\forall x[\beta(x)]\) も
+\(I\) のもとで真であることを示す。後件も\(\supset\)の形なので，さらに
+\(\forall x[\alpha(x)]\) が真であると仮定し，\(\forall x[\beta(x)]\) が真であることを示せばよい
+（そうでなければ後件は前件が偽で自動的に真）。
+
+\(D\) の任意の元 \(d\) をとる。
+\begin{itemize}
+  \item 仮定「\(\forall x[\alpha(x)\supset\beta(x)]\) が真」より，\(x\) に \(d\) を代入した
+    \(\alpha(d)\supset\beta(d)\) は \(I\) のもとで真である（全称量化の意味論）。
+  \item 仮定「\(\forall x[\alpha(x)]\) が真」より，\(\alpha(d)\) も \(I\) のもとで真である。
+  \item 命題論理の分離規則（modus ponens）より，\(\alpha(d)\supset\beta(d)\) と \(\alpha(d)\) がともに真であれば
+    \(\beta(d)\) も真である。
+\end{itemize}
+\(d\) は \(D\) の任意の元であったから，\(\beta(x)\) はすべての \(d\in D\) について真，
+すなわち \(\forall x[\beta(x)]\) は \(I\) のもとで真である。
+
+以上より，どちらの場合分けにおいても式全体は \(I\) のもとで真である。\(I\) は任意の解釈であったから，
+この式はすべての解釈のもとで真，すなわちSLPC恒真式型である。\hfill\(\blacksquare\)
+\end{solution}
+
+\end{document}
