@@ -1,0 +1,205 @@
+% SLPC恒偽式型の証明方法と類題
+% 対策プリントの問6（SLPC恒真式型の証明）を踏まえ，逆に恒偽式型（すべての解釈で偽）
+% を示すときの方針を整理し，∀・∃が混在する類題3問を解答解説つきでまとめる。
+\documentclass[autodetect-engine,dvi=dvipdfmx,ja=standard]{bxjsarticle}
+
+\makeatletter
+\providecommand*{\input@path}{}
+\g@addto@macro\input@path{{./}{../includes/}}
+\makeatother
+
+\input{protocol.tex}
+\input{preamble.tex}
+
+\title{SLPC恒偽式型の証明方法と類題}
+\author{論理学 問6 関連}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+対策プリント問6は「\(\forall x[\alpha(x)\supset\beta(x)]\supset(\forall x[\alpha(x)]\supset\forall x[\beta(x)])\)
+がSLPC恒真式型（すべての解釈で真）であることを示せ」という問題だった。本資料は，逆に
+「SLPC\textbf{恒偽式型}（すべての解釈で偽）であることを示せ」と言われたときの方針を整理し，
+\(\forall\)と\(\exists\)が混在する類題を3問，解答解説つきで扱う。
+
+\section{恒真式型と恒偽式型，それぞれの示し方}
+
+\begin{sidebox}[TBteal]{恒真式型の示し方（問6で使った方法）}
+任意の解釈 \(I\) を1つ取り，その中で式が真になることを直接追いかける。
+\begin{itemize}
+  \item \(A\supset B\) を示すときは，「\(A\)が偽なら自動的に真」なので，\(A\)を\textbf{仮定}して\(B\)を示せばよい。
+  \item \(\forall x[P(x)]\) を示すときは，領域から任意の1個\(d\)を取り，その\(d\)について\(P(d)\)を示せばよい
+    （\(d\)は任意だったので全部について言える）。
+  \item \(\forall x[P(x)]\) が真だと分かっているときは，特定の\(d\)について\(P(d)\)を取り出してよい（全称の除去）。
+\end{itemize}
+\end{sidebox}
+
+\begin{sidebox}[TBred]{恒偽式型の示し方（今回追加する方法）}
+恒真式型とは逆に，「すべての解釈で偽になる」ことを示す。2通りのやり方がある。
+
+\textbf{方法A（否定して恒真式型に帰着）：} \(\varphi\)が恒偽式型 \(\Longleftrightarrow\)
+\(\sim\varphi\)が恒真式型，という一般的な事実を使い，\(\sim\varphi\)を作って恒真式型の方法（上のボックス）を
+そのまま適用する。
+
+\textbf{方法B（背理法・直接示す本筋）：}
+\begin{enumerate}
+  \item 任意の解釈\(I\)を取り，\(\varphi\)が\(I\)のもとで真だと\textbf{仮定}する。
+  \item \(\varphi\)の構造にしたがって仮定を展開する：
+    \(\land\)なら両方真，\(\exists x[P(x)]\)が真ならある個体\(d\)で\(P(d)\)が真（witnessを名付ける），
+    \(\forall x[P(x)]\)が真ならどの個体についても\(P\)が成り立つ。
+  \item これらを組み合わせて，同じ主張について「真」と「偽」を同時に導き，矛盾を得る。
+  \item 矛盾が出た以上，1の仮定は誤り。\(\varphi\)は\(I\)のもとで偽。\(I\)は任意だったので恒偽式型。
+\end{enumerate}
+\end{sidebox}
+
+\begin{sidebox}[TBorange]{\(\sim(A\supset B)\) の展開——ありがちな間違いに注意}
+\(A\supset B\;=_{\mathrm{df}}\;\sim A\lor B\) の定義に戻ってからド・モルガンと二重否定の除去を使うと，
+\[
+  \sim(A\supset B)\;\equiv\;\sim(\sim A\lor B)\;\equiv\;\sim\sim A\land\sim B\;\equiv\;A\land\sim B
+\]
+となる。\textbf{\(\sim B\)を否定したところが「ならば」ではなく「かつ」になる点に注意}
+（\(A\supset\sim B\)や\(\sim A\lor\sim B\)にはならない）。
+
+真理値表で確認すると，\(A\supset B\)が偽になるのは「\(A\)が真で\(B\)が偽」の1行だけなので，
+その否定 \(A\land\sim B\) と一致する。
+
+\medskip
+\textbf{系：} \(A\supset B\) が恒偽式型であるためには，\(A\land\sim B\) が恒真式型でなければならない。
+\(\land\)の恒真性は両方の連言肢が\textbf{別々に}恒真式型であることを要求するので，これは
+\textbf{「\(A\)が恒真式型」かつ「\(B\)が恒偽式型」}という2つの独立した事実に分解できる
+（\(T\supset F\)だけが\(F\)になる組合せなので，\(A\supset B\)が常に偽であるためには
+\(A\)が常に真，\(B\)が常に偽である必要がある，という言い換えでもある）。
+\end{sidebox}
+
+\section{参考：問6の解答（恒真式型の型を確認する）}
+
+\begin{exercise}{問6（参考）}{ref-q6}
+次のSLPC論理式型がSLPC恒真式型であることを示せ。
+\[
+  \forall x[\alpha(x)\supset\beta(x)]\supset\bigl(\forall x[\alpha(x)]\supset\forall x[\beta(x)]\bigr)
+\]
+\end{exercise}
+\begin{solution}{問6（参考）}{ref-sol-q6}
+任意の解釈\(I\)を取る。前件\(\forall x[\alpha(x)\supset\beta(x)]\)が偽なら全体は自動的に真。
+前件が真であると仮定し，後件も真であることを示す。後件も\(\supset\)の形なので，
+さらに\(\forall x[\alpha(x)]\)が真であると仮定し，\(\forall x[\beta(x)]\)が真であることを示せばよい。
+
+領域\(D\)の任意の元\(d\)を取る。仮定より\(\alpha(d)\supset\beta(d)\)と\(\alpha(d)\)がともに真だから，
+分離規則（modus ponens）で\(\beta(d)\)も真。\(d\)は任意だったので\(\forall x[\beta(x)]\)が真。
+以上より式全体は\(I\)のもとで常に真，\(I\)は任意だったのでSLPC恒真式型である。\hfill\(\blacksquare\)
+\end{solution}
+
+\section{類題1：\(\forall\)と\(\exists\)がそのまま矛盾する基本形}
+
+\begin{exercise}{類題1}{ex1}
+次の式がSLPC恒偽式型であることを示せ。
+\[
+  \forall x[\alpha(x)]\;\land\;\exists x[\sim\alpha(x)]
+\]
+\end{exercise}
+
+\begin{solution}{類題1}{sol1}
+\textbf{方法B（背理法）：}
+
+任意の解釈\(I\)を取り，上式が\(I\)のもとで真だと仮定する。\(\land\)なので
+\(\forall x[\alpha(x)]\)と\(\exists x[\sim\alpha(x)]\)がともに真である。
+
+\begin{itemize}
+  \item \(\exists x[\sim\alpha(x)]\)が真だから，ある個体\(d\in D\)で\(\sim\alpha(d)\)が真である
+    （存在の除去：この\(d\)を名付けて以後使ってよい）。
+  \item \(\forall x[\alpha(x)]\)が真だから，\textbf{その同じ}\(d\)についても\(\alpha(d)\)が真である
+    （全称の除去）。
+\end{itemize}
+\(\alpha(d)\)と\(\sim\alpha(d)\)が同時に真というのは矛盾である。したがって最初の仮定は誤りであり，
+上式は\(I\)のもとで偽である。\(I\)は任意の解釈だったから，この式はすべての解釈のもとで偽，
+すなわちSLPC恒偽式型である。\hfill\(\blacksquare\)
+
+\textbf{方法A（否定して恒真式型を示す・別解）：}
+
+\(\sim\bigl(\forall x[\alpha(x)]\land\exists x[\sim\alpha(x)]\bigr)\)をド・モルガンで展開する。
+\[
+  \sim\bigl(\forall x[\alpha(x)]\land\exists x[\sim\alpha(x)]\bigr)
+  \;\equiv\;
+  \sim\forall x[\alpha(x)]\;\lor\;\sim\exists x[\sim\alpha(x)]
+\]
+ここで量化子の否定則 \(\sim\forall x[P(x)]\equiv\exists x[\sim P(x)]\)，
+\(\sim\exists x[P(x)]\equiv\forall x[\sim P(x)]\) を使うと，
+\[
+  \equiv\;
+  \exists x[\sim\alpha(x)]\;\lor\;\forall x[\sim\sim\alpha(x)]
+  \;\equiv\;
+  \exists x[\sim\alpha(x)]\;\lor\;\forall x[\alpha(x)]
+\]
+ここで\(\forall x[\alpha(x)]\)を1つの命題\(P\)とみなせば，この式は\(\sim P\lor P\)，
+すなわちPM-Th.3（排中律）をSLPCの命題\(\forall x[\alpha(x)]\)に持ち上げただけの形であり，恒真式型である。
+よって元の式はその否定なので恒偽式型である。\hfill\(\blacksquare\)
+\end{solution}
+
+\section{類題2：問6と同じ「全称の除去→分離規則」を使う版}
+
+\begin{exercise}{類題2}{ex2}
+次の式がSLPC恒偽式型であることを示せ。
+\[
+  \forall x[\alpha(x)]\;\land\;\exists x[\beta(x)]\;\land\;\forall x[\alpha(x)\supset\sim\beta(x)]
+\]
+\end{exercise}
+
+\begin{solution}{類題2}{sol2}
+任意の解釈\(I\)を取り，上式が\(I\)のもとで真だと仮定する。\(\land\)なので3つの連言肢
+\(\forall x[\alpha(x)]\)，\(\exists x[\beta(x)]\)，\(\forall x[\alpha(x)\supset\sim\beta(x)]\)が
+すべて真である。
+
+\begin{itemize}
+  \item \(\exists x[\beta(x)]\)が真だから，ある個体\(d\in D\)で\(\beta(d)\)が真である（witnessの導入）。
+  \item \(\forall x[\alpha(x)]\)が真だから，その\(d\)について\(\alpha(d)\)も真である（全称の除去）。
+  \item \(\forall x[\alpha(x)\supset\sim\beta(x)]\)が真だから，その\(d\)について
+    \(\alpha(d)\supset\sim\beta(d)\)も真である（全称の除去）。
+  \item \(\alpha(d)\)と\(\alpha(d)\supset\sim\beta(d)\)がともに真なので，分離規則（modus ponens）より
+    \(\sim\beta(d)\)も真である。
+\end{itemize}
+しかし最初にwitnessとして取った\(d\)は\(\beta(d)\)が真であった。\(\beta(d)\)と\(\sim\beta(d)\)が
+同時に真というのは矛盾である。したがって最初の仮定は誤りであり，上式は\(I\)のもとで偽である。
+\(I\)は任意だったから，SLPC恒偽式型である。\hfill\(\blacksquare\)
+
+（問6の証明で使った「\(\forall\)を外して分離規則で\(\beta(d)\)を導く」操作と全く同じ部品を使い，
+最後に矛盾へ着地させただけの構造になっている。）
+\end{solution}
+
+\section{類題3：\(A\supset B\)全体が恒偽式型になる形}
+
+\begin{exercise}{類題3}{ex3}
+次の式がSLPC恒偽式型であることを示せ。
+\[
+  \forall x[\alpha(x)\lor\sim\alpha(x)]
+  \;\supset\;
+  \bigl(\forall x[\alpha(x)]\land\exists x[\sim\alpha(x)]\bigr)
+\]
+\end{exercise}
+
+\begin{solution}{類題3}{sol3}
+全体は\(A\supset B\)の形（\(A=\forall x[\alpha(x)\lor\sim\alpha(x)]\)，
+\(B=\forall x[\alpha(x)]\land\exists x[\sim\alpha(x)]\)）である。
+\(A\supset B\)が恒偽式型であるためには，\(A\)が恒真式型かつ\(B\)が恒偽式型であればよい
+（\(T\supset F\)だけが偽になる組合せであり，これがすべての解釈で成り立つには
+\(A\)が常に真，\(B\)が常に偽である必要がある）。
+
+\textbf{①\(A\)が恒真式型であることを示す：}
+任意の解釈\(I\)と領域\(D\)の任意の元\(d\)について，\(\alpha(d)\lor\sim\alpha(d)\)は
+命題論理の排中律（PM-Th.3）の代入例として真である。\(d\)は任意だったので
+\(\forall x[\alpha(x)\lor\sim\alpha(x)]\)は\(I\)のもとで真。\(I\)は任意だったので恒真式型である。
+
+\textbf{②\(B\)が恒偽式型であることを示す：}
+\(B=\forall x[\alpha(x)]\land\exists x[\sim\alpha(x)]\)は類題1そのものであり，
+すでに恒偽式型であることを示した。
+
+\textbf{③組み合わせる：}
+①・②より，任意の解釈\(I\)のもとで\(A\)は真，\(B\)は偽である。したがって
+\(A\supset B\)は\(I\)のもとで\(\true\supset\false=\false\)。\(I\)は任意だったから，
+元の式はSLPC恒偽式型である。\hfill\(\blacksquare\)
+
+（\(A\land\sim B\)が恒真式型であることを1発で示すよりも，\(A\)の恒真性と\(B\)の恒偽性を
+別々に示して組み合わせるほうが見通しがよく，実際に類題1の結果がそのまま部品として使えている。）
+\end{solution}
+
+\end{document}
