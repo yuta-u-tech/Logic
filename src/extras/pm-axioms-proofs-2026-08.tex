@@ -49,13 +49,57 @@
 \(p\supset q\)が偽なら前件が偽で自動的に真，真なら\(V_i[p]=1\Rightarrow V_i[q]=1\)なので
 \(r\lor p\)が真になるすべての場合に\(r\lor q\)も真になる（A4）。
 
-\subsection*{原始導出規則}
+\subsection*{原始導出規則（PDR）とは何か}
 
+\textbf{PDR}は\textbf{Primitive Derivation Rule（原始導出規則）}の略である。
+公理A1--A4は「証明なしに使ってよい，最初から真だとわかっている式」だが，
+公理だけを眺めていても新しい定理は出てこない。PDRは，
+「\textbf{すでに証明済みの式から，新しい証明済みの式を機械的に作り出す手順}」を定める規則であり，
+「\(\mathrm{PM}\vdash\alpha\)」（\(\alpha\)はPMで証明済み）という形の主張を，
+横線の上から下へ（分子から分母へ）移してよい，という意味に読む。
+\textbf{PDR1・PDR2の2つだけ}が最初から与えられた「原始（primitive）」規則であり，
+後で出てくるPDR3・DR4はこの2つから\textbf{組み立てて作った「派生（derived）」規則}である
+（詳しくは後述）。
+
+\begin{center}
 \[
   \frac{\mathrm{PM}\vdash\alpha[p]}{\mathrm{PM}\vdash\alpha[\beta]}\quad\mathrm{PDR1（一様代入）}
   \qquad\qquad
   \frac{\mathrm{PM}\vdash\alpha\quad\mathrm{PM}\vdash\alpha\supset\beta}{\mathrm{PM}\vdash\beta}\quad\mathrm{PDR2（分離）}
 \]
+\end{center}
+
+\textbf{PDR1（一様代入）：} 「\(\alpha[p]\)（命題変項\(p\)を含む式\(\alpha\)）が証明済みならば，
+その\(p\)の\textbf{出現すべてを}，同じ1つの式\(\beta\)で一斉に置き換えた\(\alpha[\beta]\)も証明済みである」
+という規則。公理や定理は「\(p\)がどんな式であっても成り立つ」という\textbf{型（スキーマ）}を表しているので，
+\(p\)の場所に別の式を代入しても真であり続ける，というのが直感である。
+
+例えば公理A1「\(p\lor p\supset p\)」は，\(p\)にどんな式を入れても成り立つ。
+\(p\mapsto(q\land r)\)と代入すれば，
+\[
+  (q\land r)\lor(q\land r)\supset(q\land r)
+\]
+という新しい証明済みの式が得られる。本資料の証明では，1変項だけでなく，
+複数の変項（例えば\(p,q,r\)）を\textbf{同時に}別の式に置き換えるPDR1の適用も頻繁に行う
+（例：PM-Th.1の証明の2行目では，A4の\(p,q,r\)を一度に\(q,r,\sim p\)へ置き換えている）。
+
+\textbf{PDR2（分離）：} 「\(\alpha\)が証明済みで，かつ\(\alpha\supset\beta\)（\(\alpha\)ならば\(\beta\)）も
+証明済みならば，\(\beta\)も証明済みである」という規則。日常的な推論の「\(A\)は本当で，
+『\(A\)ならば\(B\)』も本当なら，\(B\)も本当だ」という三段論法そのもので，
+数理論理学では\textbf{modus ponens（前件肯定式）}とも呼ばれる。「分離」という名前は，
+\(\alpha\supset\beta\)という式から\(\alpha\)の部分を取り去って（分離して）\(\beta\)だけを取り出す，
+という見た目に由来する。
+
+例えば「\(p\lor p\supset p\)」（A1，\(\alpha\supset\beta\)にあたる）と「\(p\lor p\)」
+（これが真だとどこかで示せていれば\(\alpha\)にあたる）の両方が証明済みなら，PDR2により
+「\(p\)」（\(\beta\)にあたる）が証明済みになる。
+
+\textbf{原始規則と派生規則の違い：} PDR1・PDR2は最初から使ってよいと\textbf{定められた}規則
+（これ以上分解できない，証明体系の一部）である。これに対しPDR3（連鎖律）やDR4（選言肢の付加）は，
+「PDR1・PDR2と既存の定理を決まった順序で組み合わせれば，結果として同じ働きをする」ことが
+\textbf{証明できる}規則であり，いわば「PDR1・PDR2をショートカットするために名前をつけた手順」
+にすぎない。本資料の各証明の右側に\([\mathrm{PDR1}]\)や\([\mathrm{PDR3}]\)のように書いてあるのは，
+その行がどの規則（または公理・既存の定理）から得られたかの根拠を示すものである。
 
 \subsection*{定義}
 
