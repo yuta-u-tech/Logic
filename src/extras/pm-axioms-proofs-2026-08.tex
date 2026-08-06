@@ -138,15 +138,18 @@ PM-Th.1を一様代入した式 \((\beta\supset\gamma)\supset\{(\alpha\supset\be
 \(p\supset p\)
 \end{theorem}
 \begin{tproof}{PM-Th.2}{pf2}
+公理A1はすでに\((p\lor p)\supset p\)という形をしている。あとは\(p\)と\((p\lor p)\)を
+\(\supset\)でつなぐ式，すなわち\(p\supset(p\lor p)\)（A2の\(q\)に\(p\)を代入すれば得られる）を用意し，
+PDR3で\(A1\)とつなげば\(p\supset p\)に届く。
 \begin{align*}
-  1.\quad & (q\supset r)\supset\{(p\supset q)\supset(p\supset r)\} && [\mathrm{PM\text{-}Th.1}]\\
-  2.\quad & (p\lor q\supset p)\supset\{(p\supset p\lor q)\supset(p\supset p)\}
-    && [1,\mathrm{PDR1}]\\
+  1.\quad & p\supset p\lor q && [\mathrm{A2}]\\
+  2.\quad & p\supset p\lor p && [1,\mathrm{PDR1}: q\mapsto p]\\
   3.\quad & p\lor p\supset p && [\mathrm{A1}]\\
-  4.\quad & (p\supset p\lor p)\supset(p\supset p) && [2,3,\mathrm{PDR2}]\\
-  5.\quad & p\supset p\lor p && [\mathrm{A2}]\\
-  6.\quad & p\supset p && [4,5,\mathrm{PDR2}]
+  4.\quad & p\supset p && [2,3,\mathrm{PDR3}]
 \end{align*}
+（第8章の原典では，この証明で使うPDR3をまだ導入していないため，PDR2を2回使う回りくどい
+6行の証明になっている。本資料ではPDR3をPM-Th.1の直後に先出ししているので，
+「A1の左辺\(p\lor p\)をA2で仲立ちしてp自身につなぐ」という直感通りの3行で済む。）
 \end{tproof}
 
 \begin{theorem}{PM-Th.3（排中律）}{th3}
