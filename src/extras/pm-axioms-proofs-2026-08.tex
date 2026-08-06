@@ -22,9 +22,9 @@
 第8章「PM証明体系」は公理 A1--A4 と原始導出規則 PDR1・PDR2 を提示するが，
 そこから実際に定理を導く過程は定理2（反射律）にしか示されていない。
 本資料は，\textbf{A1--A4 と PDR1・PDR2 だけを出発点として}，対策プリントの問5で
-扱った7つの定理（PM-Th.1〜PM-Th.6a）と，途中で必要になる派生規則
-（PDR3，DR4）を，省略なくすべて導出し直したものである。
-「④SPC恒真式だからDR-E8で証明できる」という意味論的な近道は使わず，
+扱った7つの定理（PM-Th.1〜PM-Th.6a）に加え，Th4a/Th4bと同じ「両方向」の形に揃えるため
+Th5b・Th6bも補い，全9定理と，途中で必要になる派生規則（PDR3，DR4）を，省略なくすべて
+導出し直したものである。「SPC恒真式だからDR-E8で証明できる」という意味論的な近道は使わず，
 すべて構文論的な証明（公理と規則の適用のみ）で統一する。
 
 \section{出発点：公理・原始規則・定義}
@@ -193,18 +193,16 @@ DR4とPDR3を使って，二重否定の導入（Th4a）から除去を導く。
 \begin{align*}
   1.\quad & p\supset\sim\sim p && [\mathrm{PM\text{-}Th.4a}]\\
   2.\quad & \sim p\supset\sim\sim\sim p && [1,\mathrm{PDR1}: p\mapsto\sim p]\\
-  3.\quad & (\sim p\supset\sim\sim\sim p)\supset\{(r\lor\sim p)\supset(r\lor\sim\sim\sim p)\}
-    && [\mathrm{A4},\mathrm{PDR1}: p\mapsto\sim p,\ q\mapsto\sim\sim\sim p]\\
-  4.\quad & (r\lor\sim p)\supset(r\lor\sim\sim\sim p) && [2,3,\mathrm{PDR2}]\\
-  5.\quad & (p\lor\sim p)\supset(p\lor\sim\sim\sim p) && [4,\mathrm{PDR1}: r\mapsto p]\\
-  6.\quad & p\lor\sim p && [\mathrm{PM\text{-}Th.3}]\\
-  7.\quad & p\lor\sim\sim\sim p && [5,6,\mathrm{PDR2}]\\
-  8.\quad & p\lor q\supset q\lor p && [\mathrm{A3}]\\
-  9.\quad & (p\lor\sim\sim\sim p)\supset(\sim\sim\sim p\lor p) && [8,\mathrm{PDR1}: q\mapsto\sim\sim\sim p]\\
-  10.\quad & \sim\sim\sim p\lor p && [7,9,\mathrm{PDR2}]\\
-  11.\quad & \sim\sim p\supset p && [10,\ \supset\text{の定義：}\sim(\sim\sim p)\lor p=_{\mathrm{df}}\sim\sim p\supset p]
+  3.\quad & (p\lor\sim p)\supset(p\lor\sim\sim\sim p) && [2,\mathrm{DR4}: \gamma\mapsto p]\\
+  4.\quad & p\lor\sim p && [\mathrm{PM\text{-}Th.3}]\\
+  5.\quad & p\lor\sim\sim\sim p && [3,4,\mathrm{PDR2}]\\
+  6.\quad & p\lor q\supset q\lor p && [\mathrm{A3}]\\
+  7.\quad & (p\lor\sim\sim\sim p)\supset(\sim\sim\sim p\lor p) && [6,\mathrm{PDR1}: q\mapsto\sim\sim\sim p]\\
+  8.\quad & \sim\sim\sim p\lor p && [5,7,\mathrm{PDR2}]\\
+  9.\quad & \sim\sim p\supset p && [8,\ \supset\text{の定義：}\sim(\sim\sim p)\lor p=_{\mathrm{df}}\sim\sim p\supset p]
 \end{align*}
-（手順4〜7がDR4の実体，8〜10が交換律の適用である。）
+（手順3がDR4を直接使う箇所，6〜7が交換律の適用である。DR4は「A4に一様代入してPDR2」という
+2手順をひとまとめにした派生規則なので，ここで呼び出すだけで済み，改めて導出し直す必要はない。）
 \end{tproof}
 
 \begin{theorem}{PM-Th.5a（移出律・対偶）}{th5a}
@@ -214,19 +212,38 @@ DR4とPDR3を使って，二重否定の導入（Th4a）から除去を導く。
 \begin{align*}
   1.\quad & p\supset\sim\sim p && [\mathrm{PM\text{-}Th.4a}]\\
   2.\quad & q\supset\sim\sim q && [1,\mathrm{PDR1}: p\mapsto q]\\
-  3.\quad & (p\supset q)\supset\{(r\lor p)\supset(r\lor q)\} && [\mathrm{A4}]\\
-  4.\quad & (q\supset\sim\sim q)\supset\{(\sim p\lor q)\supset(\sim p\lor\sim\sim q)\}
-    && [3,\mathrm{PDR1}: p\mapsto q,\ q\mapsto\sim\sim q,\ r\mapsto\sim p]\\
-  5.\quad & (\sim p\lor q)\supset(\sim p\lor\sim\sim q) && [2,4,\mathrm{PDR2}]\\
-  6.\quad & p\lor q\supset q\lor p && [\mathrm{A3}]\\
-  7.\quad & (\sim p\lor\sim\sim q)\supset(\sim\sim q\lor\sim p)
-    && [6,\mathrm{PDR1}: p\mapsto\sim p,\ q\mapsto\sim\sim q]\\
-  8.\quad & (\sim p\lor q)\supset(\sim\sim q\lor\sim p) && [5,7,\mathrm{PDR3}]\\
-  9.\quad & (p\supset q)\supset(\sim q\supset\sim p)
-    && [8,\ \supset\text{の定義（左辺・右辺とも）}]
+  3.\quad & (\sim p\lor q)\supset(\sim p\lor\sim\sim q) && [2,\mathrm{DR4}: \gamma\mapsto\sim p]\\
+  4.\quad & p\lor q\supset q\lor p && [\mathrm{A3}]\\
+  5.\quad & (\sim p\lor\sim\sim q)\supset(\sim\sim q\lor\sim p)
+    && [4,\mathrm{PDR1}: p\mapsto\sim p,\ q\mapsto\sim\sim q]\\
+  6.\quad & (\sim p\lor q)\supset(\sim\sim q\lor\sim p) && [3,5,\mathrm{PDR3}]\\
+  7.\quad & (p\supset q)\supset(\sim q\supset\sim p)
+    && [6,\ \supset\text{の定義（左辺・右辺とも）}]
 \end{align*}
-（手順1〜5がTh4aをA4で「\(\lor\)の中に押し込む」操作，6〜8が交換律，9で両辺を
-\(\supset\)の定義に戻している。）
+（手順3がTh4aをDR4で「\(\lor\)の中に押し込む」操作，4〜5が交換律，6でPDR3による連鎖，
+7で両辺を\(\supset\)の定義に戻している。Th4bと同じくDR4を直接呼び出すことで，
+A4の一様代入とPDR2を毎回書き下す手間を省いている。）
+\end{tproof}
+
+\begin{theorem}{PM-Th.5b（移出律・対偶の逆方向）}{th5b}
+\((\sim q\supset\sim p)\supset(p\supset q)\)
+\end{theorem}
+\begin{tproof}{PM-Th.5b}{pf5b}
+Th5aと対にして，対偶の\textbf{逆方向}を示す。Th5aをそのまま代入して使おうとすると
+二重否定が余分に出てきてしまうので，Th5aの代入ではなく，Th4bとDR4を直接使うほうが早い。
+\(\sim q\supset\sim p\)を定義で読み替えると\(\sim\sim q\lor\sim p\)であり，
+\(p\supset q\)は\(\sim p\lor q\)である。
+\begin{align*}
+  1.\quad & \sim\sim q\supset q && [\mathrm{PM\text{-}Th.4b}]\\
+  2.\quad & (\sim p\lor\sim\sim q)\supset(\sim p\lor q) && [1,\mathrm{DR4}: \gamma\mapsto\sim p]\\
+  3.\quad & p\lor q\supset q\lor p && [\mathrm{A3}]\\
+  4.\quad & (\sim\sim q\lor\sim p)\supset(\sim p\lor\sim\sim q) && [3,\mathrm{PDR1}: p\mapsto\sim\sim q,\ q\mapsto\sim p]\\
+  5.\quad & (\sim\sim q\lor\sim p)\supset(\sim p\lor q) && [4,2,\mathrm{PDR3}]\\
+  6.\quad & (\sim q\supset\sim p)\supset(p\supset q)
+    && [5,\ \supset\text{の定義（左辺・右辺とも）}]
+\end{align*}
+（Th4bを\(\lor\)の中に押し込む点はTh5aと同じだが，Th4a（導入）ではなくTh4b（除去）を使う点が違う。
+Th5a・Th5bを合わせれば，対偶の同値\((p\supset q)\equiv(\sim q\supset\sim p)\)が両方向とも証明できたことになる。）
 \end{tproof}
 
 \begin{theorem}{PM-Th.6a（ド・モルガンの一方向）}{th6a}
@@ -245,23 +262,53 @@ DR4とPDR3を使って，二重否定の導入（Th4a）から除去を導く。
 \end{align*}
 \end{tproof}
 
+\begin{theorem}{PM-Th.6b（ド・モルガンの逆方向）}{th6b}
+\((\sim p\lor\sim q)\supset\sim(p\land q)\)
+\end{theorem}
+\begin{tproof}{PM-Th.6b}{pf6b}
+\(\land\)の定義より\(\sim(p\land q)=\sim\sim(\sim p\lor\sim q)\)なので，
+Th6aとは逆に，こちらはTh4a（二重否定の\textbf{導入}）の\(p\)に\((\sim p\lor\sim q)\)を
+代入するだけで得られる。
+\begin{align*}
+  1.\quad & p\supset\sim\sim p && [\mathrm{PM\text{-}Th.4a}]\\
+  2.\quad & (\sim p\lor\sim q)\supset\sim\sim(\sim p\lor\sim q)
+    && [1,\mathrm{PDR1}: p\mapsto(\sim p\lor\sim q)]\\
+  3.\quad & (\sim p\lor\sim q)\supset\sim(p\land q)
+    && [2,\ \land\text{の定義：}p\land q=_{\mathrm{df}}\sim(\sim p\lor\sim q)]
+\end{align*}
+（Th6aがTh4b，Th6bがTh4aに対応しており，Th5a/Th5bと同じく，
+Th6a・Th6bを合わせてド・モルガンの同値\(\sim(p\land q)\equiv(\sim p\lor\sim q)\)が
+両方向とも証明できたことになる。）
+\end{tproof}
+
 \section{まとめ}
 
 以上で，公理A1--A4と原始規則PDR1・PDR2のみから，派生規則PDR3・DR4を経由して，
-PM-Th.1〜PM-Th.6aまでを構文論的にすべて証明した。依存関係は次の通りである。
+PM-Th.1〜PM-Th.6bまでの9定理を構文論的にすべて証明した。Th4a/Th4b（二重否定），
+Th5a/Th5b（対偶），Th6a/Th6b（ド・モルガン）はそれぞれ両方向がそろい，
+\(p\equiv\sim\sim p\)，\((p\supset q)\equiv(\sim q\supset\sim p)\)，
+\(\sim(p\land q)\equiv(\sim p\lor\sim q)\)という3つの同値がすべて証明できたことになる。
+定理どうしの依存関係は次の通りである（PDR3・DR4はTh.2以降ほぼ全ての証明で使うため，
+個別の矢印は省略した）。
 \[
   \mathrm{A1\text{--}A4}
   \;\to\;
   \mathrm{Th.1}
   \;\to\;
+  \mathrm{Th.2}
+  \;\to\;
+  \mathrm{Th.3}
+  \;\to\;
+  \mathrm{Th.4a}
+  \;\to\;
   \begin{cases}
-    \mathrm{PDR3} \to \mathrm{Th.5a\ の一部}\\
-    \mathrm{Th.2} \to \mathrm{Th.3} \to \mathrm{Th.4a}
-    \to
+    \mathrm{Th.4b} \to
     \begin{cases}
-      \mathrm{DR4} \to \mathrm{Th.4b} \to \mathrm{Th.6a}\\
-      \mathrm{Th.5a}
-    \end{cases}
+      \mathrm{Th.5b}\\
+      \mathrm{Th.6a}
+    \end{cases}\\
+    \mathrm{Th.5a}\\
+    \mathrm{Th.6b}
   \end{cases}
 \]
 
