@@ -159,9 +159,8 @@ PDR3で\(A1\)とつなげば\(p\supset p\)に届く。
 \(p\supset p\)を\(\supset\)の定義で読み替えると\(\sim p\lor p\)である。これに交換律A3を適用する。
 \begin{align*}
   1.\quad & p\supset p\quad(\text{定義により }\sim p\lor p) && [\mathrm{PM\text{-}Th.2}]\\
-  2.\quad & p\lor q\supset q\lor p && [\mathrm{A3}]\\
-  3.\quad & \sim p\lor p\supset p\lor\sim p && [2,\mathrm{PDR1}: p\mapsto\sim p,\ q\mapsto p]\\
-  4.\quad & p\lor\sim p && [1,3,\mathrm{PDR2}]
+  2.\quad & \sim p\lor p\supset p\lor\sim p && [\mathrm{A3},\mathrm{PDR1}: p\mapsto\sim p,\ q\mapsto p]\\
+  3.\quad & p\lor\sim p && [1,2,\mathrm{PDR2}]
 \end{align*}
 \end{tproof}
 
@@ -196,12 +195,11 @@ DR4とPDR3を使って，二重否定の導入（Th4a）から除去を導く。
   3.\quad & (p\lor\sim p)\supset(p\lor\sim\sim\sim p) && [2,\mathrm{DR4}: \gamma\mapsto p]\\
   4.\quad & p\lor\sim p && [\mathrm{PM\text{-}Th.3}]\\
   5.\quad & p\lor\sim\sim\sim p && [3,4,\mathrm{PDR2}]\\
-  6.\quad & p\lor q\supset q\lor p && [\mathrm{A3}]\\
-  7.\quad & (p\lor\sim\sim\sim p)\supset(\sim\sim\sim p\lor p) && [6,\mathrm{PDR1}: q\mapsto\sim\sim\sim p]\\
-  8.\quad & \sim\sim\sim p\lor p && [5,7,\mathrm{PDR2}]\\
-  9.\quad & \sim\sim p\supset p && [8,\ \supset\text{の定義：}\sim(\sim\sim p)\lor p=_{\mathrm{df}}\sim\sim p\supset p]
+  6.\quad & (p\lor\sim\sim\sim p)\supset(\sim\sim\sim p\lor p) && [\mathrm{A3},\mathrm{PDR1}: q\mapsto\sim\sim\sim p]\\
+  7.\quad & \sim\sim\sim p\lor p && [5,6,\mathrm{PDR2}]\\
+  8.\quad & \sim\sim p\supset p && [7,\ \supset\text{の定義：}\sim(\sim\sim p)\lor p=_{\mathrm{df}}\sim\sim p\supset p]
 \end{align*}
-（手順3がDR4を直接使う箇所，6〜7が交換律の適用である。DR4は「A4に一様代入してPDR2」という
+（手順3がDR4を直接使う箇所，6が交換律の適用である。DR4は「A4に一様代入してPDR2」という
 2手順をひとまとめにした派生規則なので，ここで呼び出すだけで済み，改めて導出し直す必要はない。）
 \end{tproof}
 
@@ -213,15 +211,14 @@ DR4とPDR3を使って，二重否定の導入（Th4a）から除去を導く。
   1.\quad & p\supset\sim\sim p && [\mathrm{PM\text{-}Th.4a}]\\
   2.\quad & q\supset\sim\sim q && [1,\mathrm{PDR1}: p\mapsto q]\\
   3.\quad & (\sim p\lor q)\supset(\sim p\lor\sim\sim q) && [2,\mathrm{DR4}: \gamma\mapsto\sim p]\\
-  4.\quad & p\lor q\supset q\lor p && [\mathrm{A3}]\\
-  5.\quad & (\sim p\lor\sim\sim q)\supset(\sim\sim q\lor\sim p)
-    && [4,\mathrm{PDR1}: p\mapsto\sim p,\ q\mapsto\sim\sim q]\\
-  6.\quad & (\sim p\lor q)\supset(\sim\sim q\lor\sim p) && [3,5,\mathrm{PDR3}]\\
-  7.\quad & (p\supset q)\supset(\sim q\supset\sim p)
-    && [6,\ \supset\text{の定義（左辺・右辺とも）}]
+  4.\quad & (\sim p\lor\sim\sim q)\supset(\sim\sim q\lor\sim p)
+    && [\mathrm{A3},\mathrm{PDR1}: p\mapsto\sim p,\ q\mapsto\sim\sim q]\\
+  5.\quad & (\sim p\lor q)\supset(\sim\sim q\lor\sim p) && [3,4,\mathrm{PDR3}]\\
+  6.\quad & (p\supset q)\supset(\sim q\supset\sim p)
+    && [5,\ \supset\text{の定義（左辺・右辺とも）}]
 \end{align*}
-（手順3がTh4aをDR4で「\(\lor\)の中に押し込む」操作，4〜5が交換律，6でPDR3による連鎖，
-7で両辺を\(\supset\)の定義に戻している。Th4bと同じくDR4を直接呼び出すことで，
+（手順3がTh4aをDR4で「\(\lor\)の中に押し込む」操作，4が交換律，5でPDR3による連鎖，
+6で両辺を\(\supset\)の定義に戻している。Th4bと同じくDR4を直接呼び出すことで，
 A4の一様代入とPDR2を毎回書き下す手間を省いている。）
 \end{tproof}
 
@@ -236,11 +233,10 @@ Th5aと対にして，対偶の\textbf{逆方向}を示す。Th5aをそのまま
 \begin{align*}
   1.\quad & \sim\sim q\supset q && [\mathrm{PM\text{-}Th.4b}]\\
   2.\quad & (\sim p\lor\sim\sim q)\supset(\sim p\lor q) && [1,\mathrm{DR4}: \gamma\mapsto\sim p]\\
-  3.\quad & p\lor q\supset q\lor p && [\mathrm{A3}]\\
-  4.\quad & (\sim\sim q\lor\sim p)\supset(\sim p\lor\sim\sim q) && [3,\mathrm{PDR1}: p\mapsto\sim\sim q,\ q\mapsto\sim p]\\
-  5.\quad & (\sim\sim q\lor\sim p)\supset(\sim p\lor q) && [4,2,\mathrm{PDR3}]\\
-  6.\quad & (\sim q\supset\sim p)\supset(p\supset q)
-    && [5,\ \supset\text{の定義（左辺・右辺とも）}]
+  3.\quad & (\sim\sim q\lor\sim p)\supset(\sim p\lor\sim\sim q) && [\mathrm{A3},\mathrm{PDR1}: p\mapsto\sim\sim q,\ q\mapsto\sim p]\\
+  4.\quad & (\sim\sim q\lor\sim p)\supset(\sim p\lor q) && [3,2,\mathrm{PDR3}]\\
+  5.\quad & (\sim q\supset\sim p)\supset(p\supset q)
+    && [4,\ \supset\text{の定義（左辺・右辺とも）}]
 \end{align*}
 （Th4bを\(\lor\)の中に押し込む点はTh5aと同じだが，Th4a（導入）ではなくTh4b（除去）を使う点が違う。
 Th5a・Th5bを合わせれば，対偶の同値\((p\supset q)\equiv(\sim q\supset\sim p)\)が両方向とも証明できたことになる。）
